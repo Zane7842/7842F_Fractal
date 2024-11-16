@@ -90,4 +90,9 @@ void Auto_Clamp(){
     }
 }
 
+void Spin_Intake(){
+
+
+    
+}
 

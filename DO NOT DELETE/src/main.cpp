@@ -57,13 +57,16 @@ void competition_initialize() {}
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 ASSET(TestPath_txt); // '.' replaced with "_" to make c++ happy
 ASSET(SimpleTest_txt); // '.' replaced with "_" to make c++ happy
-
+ASSET(SoloWin1_txt); // '.' replaced with "_" to make c++ happy
 /**
  * Runs during auto
  *
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
+
+
+    
     // Move to x: 20 and y: 15, and face heading 90. Timeout set to 4000 ms
     chassis.moveToPose(20, 15, 90, 4000);
     // Move to x: 0 and y: 0 and face heading 270, going backwards. Timeout set to 4000ms
@@ -96,20 +99,24 @@ void autonomous() {
  * Runs in driver control
  */
 void opcontrol() {
+//Solo Win Point
+    
+    chassis.setPose(-52.875, 24, 270);
+    // //Grab first mogo
+    chassis.moveToPose(-32.875, 24, 270, 1000, {.forwards = false});
+    chassis.turnToHeading(80, 1000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    IntakeMotors.move_voltage(12000);
+    chassis.moveToPose(-7.5, 40, 40, 1500);
+
+    chassis.moveToPose(-14, 60, 0, 3000, {.forwards = true});
+    chassis.moveToPose(-40, 0, 0, 4000, {.forwards = false});
 
 
-if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X) & controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-
-    chassis.setPose(-48, 0, 90);
-        // chassis.moveToPose(24, 24, 0, 100000);
-
-
-chassis.follow(SimpleTest_txt, 10, 100000, true);
     // wait until the chassis has traveled 10 inches. Otherwise the code directly after
     // the movement will run immediately
     // Unless its another movement, in which case it will wait
-
-    }
+//chassis.follow(SoloWin1_txt, 15, 4000, true);
+    
 
 /*Drive Controls*/
 
