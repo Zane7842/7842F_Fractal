@@ -2,4 +2,8 @@
 #include "main.h"
 #include "globals.hpp"
 
-void SAWP_Positive_Red()
+void SAWP_Negative_Red();
+
+void SAWP_Negative_Red_BarcBot();
+
+void SoloWin_Positive_Red();
