@@ -82,6 +82,7 @@ void Ring_Sort(){
     
 }
 
+
 void Auto_Clamp(){
     // If Mogo color is detected
     if (AutoClamp_Optical.get_hue() == 80){
