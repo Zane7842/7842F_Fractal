@@ -4,6 +4,6 @@
 
 void SAWP_Negative_Red();
 
-void SAWP_Negative_Red_BarcBot();
+void SAWP_NegativeFull_Red_BarcBot();
 
 void SoloWin_Positive_Red();

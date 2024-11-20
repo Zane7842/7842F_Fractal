@@ -20,7 +20,7 @@ void SAWP_Negative_Red(){
 
 }
 
-void SAWP_Negative_Red_BarcBot(){
+void SAWP_NegativeFull_Red_BarcBot(){
 
 chassis.setPose(-54.3, 30.8, 0);
     pros::Task Clamp(Auto_Clamp);
@@ -60,14 +60,6 @@ chassis.setPose(-54.3, 30.8, 0);
 void SoloWin_Positive_Red(){
 
  chassis.setPose(-52.875, 24, 270);
-    // //Grab first mogo
-    chassis.moveToPose(-32.875, 24, 270, 1000, {.forwards = false});
-    chassis.turnToHeading(80, 1000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
-    IntakeMotors.move_voltage(12000);
-    chassis.moveToPose(-7.5, 40, 40, 1500);
-
-    chassis.moveToPose(-14, 60, 0, 3000, {.forwards = true});
-    chassis.moveToPose(-40, 0, 0, 4000, {.forwards = false});
 
 }
 
