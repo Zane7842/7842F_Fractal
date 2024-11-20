@@ -26,12 +26,12 @@ chassis.setPose(-54.3, 30.8, 0);
     pros::Task Clamp(Auto_Clamp);
     // Push alliance off start line and grab alliance's preload
     IntakeMotors.move_voltage(12000);
-    chassis.moveToPose(-54.3, 41, 40, 1000, {.forwards = true});
+    chassis.moveToPose(-54.3, 41, 40, 4000, {.forwards = true});
     IntakeMotors.move_voltage(0);
     //Turn to face mobile goal
     chassis.turnToHeading(300, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     //Move to mobile goal (drives backwards)
-    chassis.moveToPose(-24, 24, 300, 2000, {.forwards = false});
+    chassis.moveToPose(-24, 24, 300, 4000, {.forwards = false});
     if (Clamp_Piston.is_extended() == true){
         IntakeMotors.move_voltage(12000);
     }
@@ -39,19 +39,19 @@ chassis.setPose(-54.3, 30.8, 0);
     chassis.turnToHeading(0, 900, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     //Intake Ring
     IntakeMotors.move_voltage(12000);
-    chassis.moveToPose(-24, 41.574, 0, 2000); 
+    chassis.moveToPose(-24, 41.574, 0, 4000); 
     //Turns to face ring stack 
-    chassis.turnToPoint(-48, 0, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.turnToPoint(-48, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-48, 0, 200);
     //let go of mobile goal
     Clamp_Piston.set_value(false);
     //Moves to second mobile goal
     chassis.moveToPose(-24, -24, 300, 4000, {.forwards = false});
     //Turns to face Rings
-    chassis.turnToPoint(-24, -48, 1000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.turnToPoint(-24, -48, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-24, -24, 2000);
     //Go to Elevation base
-    chassis.turnToPoint(-24, 0, 1000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-24, -8, 4000);
 }
 
