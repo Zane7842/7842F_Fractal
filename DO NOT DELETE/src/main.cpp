@@ -67,6 +67,8 @@ ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
+
+    
     int selectedAuton = autonSelector.getSelectedAuton();
 
     if (selectedAuton == 0) {
@@ -105,6 +107,11 @@ void autonomous() {
  * Runs in driver control
  */
 void opcontrol(){
+
+    SAWP_NegativeFull_Red_BarcBot();
+
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveToPoint(0, 24, 4000);
 
 /*Drive Controls*/
 

@@ -27,7 +27,7 @@ pros::Rotation verticalEnc(9);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
 lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1.625);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -1.625);
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -1.75);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -40,14 +40,14 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 // lateral motion controller
 lemlib::ControllerSettings linearController(10, // proportional gain (kP)
-                                            0.25, // integral gain (kI)
-                                            95, // derivative gain (kD)
-                                            .75, // anti windup
-                                            1, // small error range, in inches
-                                            100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
-                                            500, // large error range timeout, in milliseconds
-                                            20 // maximum acceleration (slew)
+                                            0, // integral gain (kI)
+                                            16, // derivative gain (kD)
+                                            0, // anti windup
+                                            0, // small error range, in inches
+                                            0, // small error range timeout, in milliseconds
+                                            0, // large error range, in inches
+                                            0, // large error range timeout, in milliseconds
+                                            0 // maximum acceleration (slew)
 );
 
 // angular motion controller

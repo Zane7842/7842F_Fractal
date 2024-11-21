@@ -23,15 +23,15 @@ void Odom::start(){
     });
 }
 
-void Odom::set_physical_distances(float ForwardTracker_center_distance, float SidewaysTracker_center_distance, int TrackerWheel_diameter){
+void Odom::set_physical_distances(float VerticalTracker_center_distance, float HorizontalTracker_center_distance, int TrackerWheel_diameter){
   this->TrackerWheel_diameter = TrackerWheel_diameter;
-  this->ForwardTracker_center_distance = ForwardTracker_center_distance;
-  this->SidewaysTracker_center_distance = SidewaysTracker_center_distance;
+  this->VerticalTracker_center_distance = VerticalTracker_center_distance;
+  this->HorizontalTracker_center_distance = HorizontalTracker_center_distance;
 }
 
-void Odom::set_position(float X_position = 0, float Y_position = 0, float orientation_deg = 0, float ForwardTracker_position = 0, float SidewaysTracker_position = 0){
-  this->ForwardTracker_position = ForwardTracker_position;
-  this->SidewaysTracker_position = SidewaysTracker_position;
+void Odom::set_position(float X_position = 0, float Y_position = 0, float orientation_deg = 0, float VerticalTracker_position = 0, float HorizontalTracker_position = 0){
+  this->VerticalTracker_position = VerticalTracker_position;
+  this->HorizontalTracker_position = HorizontalTracker_position;
   this->X_position = X_position;
   this->Y_position = Y_position;
   this->orientation_deg = orientation_deg;
@@ -51,49 +51,55 @@ void Odom::set_position(float X_position = 0, float Y_position = 0, float orient
 
  *Uses 2 Tracking Wheels
  *Tracking Wheels are equiped with their respective rotation sensors:
-   - (ForwardTracker) uses the (Forward_rotation) sensor
-   - (SideWaysTracker) uses the (SideWays_rotation) sensor
+   - (VerticalTracker) uses the (Vertical_rotation) sensor
+   - (HorizontalTracker) uses the (Horizontal_rotation) sensor
  */
 
 void Odom::update_position(){
 
+  /*Step 1: Store the current encoder and inertial values in local variables*/
 
-float ForwardTracker_position = Forward_rotation.get_position(); // Stores new encoder values via the rotation sensor's .get_position function
-float SidewaysTracker_position = Sideways_rotation.get_position(); // Stores new orientation via the imu_sensor's .get_heading function
-float orientation_deg = imu_sensor.get_heading()+orientation_offset;
-
-//Debugging
-  pros::lcd::print(3,"ForWardTracker_position:%.2f", ForwardTracker_position);
-  pros::lcd::print(4,"SidewaysTracker_position:%.2f", SidewaysTracker_position);
-  pros::lcd::print(5,"orientation_deg:%.2f", orientation_deg);
-
-   // this-> always refers to the old version of the variable, so subtracting this->x from x gives delta x.
-  float Forward_delta = ForwardTracker_position-this->ForwardTracker_position;
-  float Sideways_delta = SidewaysTracker_position-this->SidewaysTracker_position;
-  float Forward_delta_distance = (M_PI*TrackerWheel_diameter)*(Forward_delta / 360); // Converts position (in degrees) to distance (in inches).
-  float Sideways_delta_distance = (M_PI*TrackerWheel_diameter)*(Sideways_delta / 360); // Converts position (in degrees) to distance (in inches).
+  // Stores new encoder values via the rotation sensor's .get_position function
+  float VerticalTracker_position = Vertical_rotation.get_position(); 
+  float HorizontalTracker_position = Horizontal_rotation.get_position(); 
+  // Stores new orientation via the imu_sensor's .get_heading function
+  float orientation_deg = imu_sensor.get_heading()+orientation_offset;
 
 
-//Debugging
-  pros::lcd::print(6,"Forward_delta_distance:%.2f", Forward_delta_distance);
-  pros::lcd::print(7,"Sideways_delta_distance:%.2f", Sideways_delta_distance);
+  /*Step 2:*/
+  // this-> always refers to the old version of the variable, so subtracting this->x from x gives delta x.
+  float Vertical_delta = VerticalTracker_position-this->VerticalTracker_position;
+  float Horizontal_delta = HorizontalTracker_position-this->HorizontalTracker_position;
+  // Converts position (in degrees) to distance (in inches).
+  float Vertical_delta_distance = (M_PI*TrackerWheel_diameter)*(Vertical_delta / 360); 
+  float Horizontal_delta_distance = (M_PI*TrackerWheel_diameter)*(Horizontal_delta / 360); 
 
+  /*Step 3: Find change in orientation in radiens*/
+  //Using the to_rad function, converts current and old degree variables to radians, stores the radian values in new variables
   float orientation_rad = to_rad(orientation_deg);
   float prev_orientation_rad = to_rad(this->orientation_deg);
   float orientation_delta_rad = orientation_rad-prev_orientation_rad;
+
+  /*Step 4: Updates the previous sensor values*/
+  //Updates Vertical Tracker position
+  this->VerticalTracker_position=VerticalTracker_position; 
+  //Updates Horizontal Tracker position
+  this->HorizontalTracker_position=HorizontalTracker_position;
+  //Updates orientation in degrees
+  this->orientation_deg=orientation_deg;
   
-  // //Debugging
-  // pros::lcd::print(3,"orientation_delta_rad:%.2f", orientation_delta_rad);
-  
+
+  /*Step 5: Calculates local offsets*/
   float local_X_position;
   float local_Y_position;
 
+  //If the orientation is at 0...
   if (orientation_delta_rad == 0) {
-    local_X_position = Sideways_delta;
-    local_Y_position = Forward_delta;
+    local_X_position = Horizontal_delta; //Local X is 
+    local_Y_position = Vertical_delta;
   } else {
-    local_X_position = (2*sin(orientation_delta_rad/2))*((Sideways_delta/orientation_delta_rad)+SidewaysTracker_center_distance); 
-    local_Y_position = (2*sin(orientation_delta_rad/2))*((Forward_delta/orientation_delta_rad)+ForwardTracker_center_distance);
+    local_X_position = (2*sin(orientation_delta_rad/2))*((Horizontal_delta/orientation_delta_rad)+HorizontalTracker_center_distance); 
+    local_Y_position = (2*sin(orientation_delta_rad/2))*((Vertical_delta/orientation_delta_rad)+VerticalTracker_center_distance);
   }
 
   // //Debugging
@@ -124,10 +130,6 @@ float orientation_deg = imu_sensor.get_heading()+orientation_offset;
   Y_position+=Y_position_delta;
 
 
-  //Updates the previous sensor values
-  this->ForwardTracker_position=ForwardTracker_position;
-  this->SidewaysTracker_position=SidewaysTracker_position;
-  this->orientation_deg=orientation_deg;
 
    //Prints Values to the brain screen
   pros::lcd::set_text(0, "X Val: " + std::to_string(X_position));

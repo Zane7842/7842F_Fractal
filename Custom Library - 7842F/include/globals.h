@@ -11,8 +11,8 @@ extern pros::MotorGroup right_mg;  // Creates a motor group with forwards port 5
 
 extern pros::Imu imu_sensor;
 
-extern pros::Rotation Forward_rotation;
-extern pros::Rotation Sideways_rotation;
+extern pros::Rotation Vertical_rotation;
+extern pros::Rotation Horizontal_rotation;
 
 
 }
