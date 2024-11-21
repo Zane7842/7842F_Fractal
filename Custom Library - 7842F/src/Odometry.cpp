@@ -69,7 +69,6 @@ void Odom::update_position(){
   // Stores new orientation via the imu_sensor's .get_heading function
   float orientation_deg = imu_sensor.get_heading()+orientation_offset;
 
-
   /*Step 2:*/
   // this-> always refers to the old version of the variable, so subtracting this->x from x gives delta x.
   float Vertical_delta = VerticalTracker_position-this->VerticalTracker_position;
@@ -91,7 +90,6 @@ void Odom::update_position(){
   this->HorizontalTracker_position=HorizontalTracker_position;
   //Updates orientation in degrees
   this->orientation_deg=orientation_deg;
-  
 
   /*Step 5: Calculates local offsets*/
   float local_X_position;
