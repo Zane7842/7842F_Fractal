@@ -59,15 +59,35 @@ void SAWP_Positive_Red(){
 
     chassis.setPose(-50.6, -60.979, 255);
     pros::Task Clamp(Auto_Clamp);
+    pros::Task Sort(Ring_Sort);
+    //Move to first mogo and pus ring stack
     chassis.moveToPoint(-5.95, -49.194, 4000, {.forwards = false});
+    //Score preload
     IntakeMotors.move_voltage(12000);
+    //Turn and dirve back and drop mogo
     chassis.turnToHeading(270, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-24, -49.194, 2000);
     Clamp_Piston.set_value(false);
-    chassis.turnToHeading(270, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
-
-
+    IntakeMotors.move_voltage(0);
+    //Turn to face second mogo
+    chassis.turnToHeading(0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    //Move and grab second mogo
+    chassis.moveToPoint(-24, -24, 2000, {.forwards = false});
+    //Move back to middle of feild tile (lined up with red ring that was pushed)
+    chassis.moveToPoint(-24, -38, 2000);
+    //Turn to face ring that got pushed
+    chassis.turnToHeading(90, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    //Move to and intake ring that got pushed
+    IntakeMotors.move_voltage(12000);
+    chassis.moveToPoint(-5, -38, 2000);
+    //Move backwards to be in line with ring stack by allaince stake
+    chassis.moveToPoint(-48, -14, 2000, {.forwards = false});
+    //Turn to face final ring stack
+    chassis.turnToPoint(-48, 0,2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    //Dirve to and intake red and blue ring, ensure to color sort out blue.
+    chassis.moveToPoint(-31, 0.5, 4000);
 }
 
+void 
 
  
