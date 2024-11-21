@@ -29,6 +29,10 @@ void Odom::set_physical_distances(float VerticalTracker_center_distance, float H
   this->HorizontalTracker_center_distance = HorizontalTracker_center_distance;
 }
 
+
+// Type Class_Name::Member_Function_Name(){Insert code}
+
+
 void Odom::set_position(float X_position = 0, float Y_position = 0, float orientation_deg = 0, float VerticalTracker_position = 0, float HorizontalTracker_position = 0){
   this->VerticalTracker_position = VerticalTracker_position;
   this->HorizontalTracker_position = HorizontalTracker_position;
@@ -102,10 +106,6 @@ void Odom::update_position(){
     local_Y_position = (2*sin(orientation_delta_rad/2))*((Vertical_delta/orientation_delta_rad)+VerticalTracker_center_distance);
   }
 
-  // //Debugging
-  // pros::lcd::print(4,"local_X_position:%.2f", local_X_position);
-  // pros::lcd::print(5,"local_Y_position:%.2f", local_Y_position);
-
   float local_polar_angle;
   float local_polar_length;
 
@@ -122,10 +122,6 @@ void Odom::update_position(){
   float X_position_delta = local_polar_length*cos(global_polar_angle); 
   float Y_position_delta = local_polar_length*sin(global_polar_angle);
 
-  // //Debugging
-  // pros::lcd::print(6,"X_position_delta:%.2f", X_position_delta);
-  // pros::lcd::print(7,"Y_position_delta:%.2f", Y_position_delta);
-
   X_position+=X_position_delta;
   Y_position+=Y_position_delta;
 
@@ -136,8 +132,6 @@ void Odom::update_position(){
   pros::lcd::set_text(1, "Y Val: " + std::to_string(Y_position));
   pros::lcd::set_text(2, "imu heading val: " + std::to_string(imu_sensor.get_heading()));
     }
-
-//} odometry namespace
 
 Odom odom;
 

@@ -47,7 +47,7 @@ chassis.setPose(-54.3, 30.8, 0);
     chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
     //Turns to face Rings
     chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
-    chassis.moveToPose(-24, -48, 180, 2000);
+    chassis.moveToPoint(-24, -48, 2000);
     //Go to Elevation base
     chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-24, -8, 4000);
