@@ -22,7 +22,7 @@ void SAWP_Negative_Red(){
 
 void SAWP_NegativeFull_Red_BarcBot(){
 
-chassis.setPose(-54.3, 30.8, 0);
+    chassis.setPose(-54.3, 30.8, 0);
     pros::Task Clamp(Auto_Clamp);
     // Push alliance off start line and grab alliance's preload
     IntakeMotors.move_voltage(12000);
@@ -47,17 +47,25 @@ chassis.setPose(-54.3, 30.8, 0);
     chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
     //Turns to face Rings
     chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
-    chassis.moveToPose(-24, -48, 180, 2000);
+    chassis.moveToPoint(-24, -48,2000);
     //Go to Elevation base
     chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
-    chassis.moveToPoint(-24, -8, 4000);
+    chassis.moveToPoint(-24, -10, 4000);
 }
 
 
 
-void SoloWin_Positive_Red(){
+void SAWP_Positive_Red(){
 
- chassis.setPose(-52.875, 24, 270);
+    chassis.setPose(-50.6, -60.979, 255);
+    pros::Task Clamp(Auto_Clamp);
+    chassis.moveToPoint(-5.95, -49.194, 4000, {.forwards = false});
+    IntakeMotors.move_voltage(12000);
+    chassis.turnToHeading(270, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-24, -49.194, 2000);
+    Clamp_Piston.set_value(false);
+    chassis.turnToHeading(270, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+
 
 }
 
