@@ -63,13 +63,13 @@ void Ring_Sort(){
     //Define Enum Variable
     RingColor Ring_Hue = blue;
     //Sets intake to sort red rings
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
                 // If this is true, ClampDown will changed to false
                 // and vice versa. 
                 Ring_Hue = red; 
     //Sets intake to sort blue rings
     }
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
                 // If this is true, ClampDown will changed to false
                 // and vice versa. 
                 Ring_Hue = blue; 
@@ -89,11 +89,5 @@ void Auto_Clamp(){
     //Clamp
     Clamp_Piston.set_value(true);
     }
-}
-
-void Spin_Intake(){
-
-
-    
 }
 
