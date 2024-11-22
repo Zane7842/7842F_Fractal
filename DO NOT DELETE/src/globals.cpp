@@ -87,12 +87,12 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 // Intake
 pros::MotorGroup IntakeMotors ({10, -5});
-pros::Optical RingSorter_Optical (15);
+pros::Optical RingSorter_Optical (21);
 bool Color_Switch = false;
 
 // Clamp
 pros::adi::Pneumatics Clamp_Piston('h', false);   // Starts retracted, extends when the ADI port is high
-pros::Optical AutoClamp_Optical (14);
+pros::Optical AutoClamp_Optical (20);
 bool ClampDown = false; // by default, the clamp will be up.
 
 // Hang

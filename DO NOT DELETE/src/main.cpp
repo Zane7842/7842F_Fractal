@@ -9,6 +9,21 @@
 #include "autons.hpp"
 using namespace Globals;
 
+/**
+ * A callback function for LLEMU's center button.
+ *
+ * When this callback is fired, it will toggle line 2 of the LCD text between
+ * "I was pressed!" and nothing.
+ */
+void on_center_button() {
+	static bool pressed = false;
+	pressed = !pressed;
+	if (pressed) {
+		pros::lcd::set_text(2, "I was pressed!");
+	} else {
+		pros::lcd::clear_line(2);
+	}
+}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -17,105 +32,70 @@ using namespace Globals;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    pros::lcd::initialize(); // initialize brain screen
+	pros::lcd::initialize();
+	pros::lcd::set_text(1, "Hello PROS User!");
+
+	pros::lcd::register_btn1_cb(on_center_button);
     chassis.calibrate(); // calibrate sensors
-    drawGUI();
-
-
-    // the default rate is 50. however, if you need to change the rate, you
-    // can do the following.
-    // lemlib::bufferedStdout().setRate(...);
-    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
-
-    // for more information on how the formatting for the loggers
-    // works, refer to the fmtlib docs
-
-    // thread to for brain screen and position logging
-    pros::Task screenTask([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // log position telemetry
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
-            // delay to save resources
-            pros::delay(50);
-        }
-    });
-
+    AutoClamp_Optical.set_led_pwm(100);
+    RingSorter_Optical.set_integration_time(712);
 }
 
 /**
- * Runs while the robot is disabled
+ * Runs while the robot is in the disabled state of Field Management System or
+ * the VEX Competition Switch, following either autonomous or opcontrol. When
+ * the robot is enabled, this task will exit.
  */
 void disabled() {}
 
 /**
- * runs after initialize if the robot is connected to field control
+ * Runs after initialize(), and before autonomous when connected to the Field
+ * Management System or the VEX Competition Switch. This is intended for
+ * competition-specific initialization routines, such as an autonomous selector
+ * on the LCD.
+ *
+ * This task will exit when the robot is enabled and autonomous or opcontrol
+ * starts.
  */
 void competition_initialize() {}
-
 // get a path used for pure pursuit
 // this needs to be put outside a function
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 ASSET(SoloWin1_txt); // '.' replaced with "_" to make c++ happy
 ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
 /**
- * Runs during auto
+ * Runs the user autonomous code. This function will be started in its own task
+ * with the default priority and stack size whenever the robot is enabled via
+ * the Field Management System or the VEX Competition Switch in the autonomous
+ * mode. Alternatively, this function may be called in initialize or opcontrol
+ * for non-competition testing purposes.
  *
- * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
+ * If the robot is disabled or communications is lost, the autonomous task
+ * will be stopped. Re-enabling the robot will restart the task, not re-start it
+ * from where it left off.
  */
-void autonomous() {
-
-    
-    int selectedAuton = autonSelector.getSelectedAuton();
-
-    if (selectedAuton == 0) {
-        std::cout << "Running Blue Plus Side..." << std::endl;
-        SAWP_NegativeFull_Red_BarcBot();
-    } else if (selectedAuton == 1) {
-        std::cout << "Running Blue Minus Side..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 2) {
-        std::cout << "Running Blue Rush..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 3) {
-        std::cout << "Running Blue AWP..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 4) {
-        std::cout << "Running Red Plus Side..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 5) {
-        std::cout << "Running Red Minus Side..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 6) {
-        std::cout << "Running Red Rush..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 7) {
-        std::cout << "Running Red AWP..." << std::endl;
-        // Add your auton code here
-    } else if (selectedAuton == 8) {
-        std::cout << "Running Auton Skills..." << std::endl;
-        // Add your auton code here
-    } else {
-        std::cout << "No valid auton selected, doing nothing." << std::endl;
-    }
-}
+void autonomous() {}
 
 /**
- * Runs in driver control
+ * Runs the operator control code. This function will be started in its own task
+ * with the default priority and stack size whenever the robot is enabled via
+ * the Field Management System or the VEX Competition Switch in the operator
+ * control mode.
+ *
+ * If no competition control is connected, this function will run immediately
+ * following initialize().
+ *
+ * If the robot is disabled or communications is lost, the
+ * operator control task will be stopped. Re-enabling the robot will restart the
+ * task, not resume it from where it left off.
  */
-void opcontrol(){
+void opcontrol() {
 
-    SAWP_NegativeFull_Red_BarcBot();
 
-    // chassis.setPose(0, 0, 0);
-    // chassis.moveToPoint(0, 24, 4000);
+    pros::Task Clamp(Auto_Clamp);
+    pros::Task Sort(Intake);
 
-/*Drive Controls*/
-
-    // controller
+	/*Drive Controls*/
    
          while (true) {
         // get left y and right x positions
@@ -127,17 +107,6 @@ void opcontrol(){
       
 /*Intake Controls*/
 
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        IntakeMotors.move_voltage(12000);
-        }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-        IntakeMotors.move_voltage(-12000);
-        }
-        else {
-        IntakeMotors.move_voltage(0);
-        }
-        //Ring Sort
-        Ring_Sort ();
         
  /*Clamp Controls*/
 
@@ -193,4 +162,3 @@ void opcontrol(){
         pros::delay(25);  
     }
 }
-

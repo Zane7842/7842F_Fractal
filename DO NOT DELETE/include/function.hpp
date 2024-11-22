@@ -6,7 +6,7 @@ void Set_Hang ();
 
 void Start_Hang ();
 
-void Ring_Sort ();
+void Intake ();
 
 void Auto_Clamp ();
 

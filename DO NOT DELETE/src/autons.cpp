@@ -24,6 +24,7 @@ void SAWP_NegativeFull_Red_BarcBot(){
 
     chassis.setPose(-54.3, 30.8, 0);
     pros::Task Clamp(Auto_Clamp);
+    pros::Task Sort(Intake);
     // Push alliance off start line and grab alliance's preload
     IntakeMotors.move_voltage(12000);
     chassis.moveToPose(-54.3, 45, 30, 4000, {.forwards = true});
@@ -59,7 +60,7 @@ void SAWP_Positive_Red(){
 
     chassis.setPose(-50.6, -60.979, 255);
     pros::Task Clamp(Auto_Clamp);
-    pros::Task Sort(Ring_Sort);
+    pros::Task Sort(Intake);
     //Move to first mogo and pus ring stack
     chassis.moveToPoint(-5.95, -49.194, 4000, {.forwards = false});
     //Score preload
@@ -87,7 +88,3 @@ void SAWP_Positive_Red(){
     //Dirve to and intake red and blue ring, ensure to color sort out blue.
     chassis.moveToPoint(-31, 0.5, 4000);
 }
-
-void 
-
- 

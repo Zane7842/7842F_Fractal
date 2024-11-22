@@ -59,35 +59,58 @@ enum RingColor {
     blue = 240, 
 };
 
-void Ring_Sort(){
-    //Define Enum Variable
-    RingColor Ring_Hue = blue;
-    //Sets intake to sort red rings
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-                // If this is true, ClampDown will changed to false
-                // and vice versa. 
-                Ring_Hue = red; 
-    //Sets intake to sort blue rings
+bool is_red;
+
+
+
+void Intake(){
+
+    while (true){
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        IntakeMotors.move_voltage(12000);
+        }
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        IntakeMotors.move_voltage(-12000);
+        }
+        else {
+        IntakeMotors.move_voltage(0);
+        }
+
+        //Define Enum Variable
+        RingColor Ring_Hue = blue;
+        //Sets intake to sort red rings
+
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+                    // If this is true, ClampDown will changed to false
+                    // and vice versa. 
+                    is_red = !is_red;   
+        //Sets intake to sort blue rings
+        }
+
+        if (is_red & (RingSorter_Optical.get_hue() < 11)){
+            // pros::delay(50); //  
+            IntakeMotors.brake();
+            pros::delay(5); //  
+        }
+        else if (RingSorter_Optical.get_hue()> 200){
+            // pros::delay(50); //   
+            IntakeMotors.brake();
+            pros::delay(10); //   
+        }
     }
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-                // If this is true, ClampDown will changed to false
-                // and vice versa. 
-                Ring_Hue = blue; 
-    }     
-       
-    if (RingSorter_Optical.get_hue() == Ring_Hue){
-    //Sort
-    IntakeMotors.move_voltage(0); //Score High Stake
-    }
-    
 }
 
 
 void Auto_Clamp(){
+  
+  while (true){
     // If Mogo color is detected
-    if (AutoClamp_Optical.get_hue() == 80){
-    //Clamp
+    if ((AutoClamp_Optical.get_hue() >= 70) & (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false)){
+    //
+     ClampDown = true; 
     Clamp_Piston.set_value(true);
+    pros::delay(500);
     }
 }
-
+}
