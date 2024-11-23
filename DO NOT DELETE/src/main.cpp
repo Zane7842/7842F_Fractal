@@ -39,6 +39,7 @@ void initialize() {
     chassis.calibrate(); // calibrate sensors
     AutoClamp_Optical.set_led_pwm(100);
     RingSorter_Optical.set_integration_time(712);
+    // AutoClamp_Optical.set_integration_time(712);
 }
 
 /**
@@ -90,7 +91,12 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+//  chassis.setPose(0, 0, 0);
+// //  chassis.moveToPoint(0, 24, 4000);
+// chassis.turnToHeading(90, 2000);
 
+   
+// SAWP_NegativeFull_Red_BarcBot();
 
     pros::Task Clamp(Auto_Clamp);
     pros::Task Sort(Intake);
@@ -124,9 +130,6 @@ void opcontrol() {
         else {
             Clamp_Piston.set_value(false);
         }
-
-        //Auto Clamp
-        Auto_Clamp ();
 
 /*Hang Controls*/
 

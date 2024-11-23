@@ -21,19 +21,22 @@ void SAWP_Negative_Red(){
 }
 
 void SAWP_NegativeFull_Red_BarcBot(){
-
+  pros::Task Clamp(Auto_Clamp);
     chassis.setPose(-54.3, 30.8, 0);
-    pros::Task Clamp(Auto_Clamp);
-    pros::Task Sort(Intake);
+    Clamp_Piston.set_value(false);
+    // pros::Task Sort(Intake);
     // Push alliance off start line and grab alliance's preload
-    IntakeMotors.move_voltage(12000);
+    IntakeMotors.move(127);
     chassis.moveToPose(-54.3, 45, 30, 4000, {.forwards = true});
-    IntakeMotors.move_voltage(0);
+      chassis.waitUntilDone();
+    IntakeMotors.move(0);
     //Turn to face mobile goal
-    chassis.turnToHeading(300, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.turnToHeading(290, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 100, });
     //Move to mobile goal (drives backwards)
-    chassis.moveToPoint(-24, 24, 4000, {.forwards = false});
-    IntakeMotors.move_voltage(12000);
+    chassis.moveToPoint(-24, 24, 4000, {.forwards = false, .maxSpeed = 40 });
+    chassis.waitUntilDone();
+    Clamp_Piston.set_value(true);
+    IntakeMotors.move(127);
     //Turn to face first ring stack
     chassis.turnToHeading(0, 900, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     //Intake Ring
@@ -43,7 +46,7 @@ void SAWP_NegativeFull_Red_BarcBot(){
     // chassis.moveToPose(-48, 0, 30, 4000, {.forwards = false}); 
    
     //let go of mobile goal
-    Clamp_Piston.set_value(false);
+    // Clamp_Piston.set_value(false);
     //Moves to second mobile goal
     chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
     //Turns to face Rings
@@ -59,9 +62,9 @@ void SAWP_NegativeFull_Red_BarcBot(){
 
 void SAWP_Positive_Red(){
 
-    chassis.setPose(-50.6, -60.979, 255);
+    chassis.setPose(-50.576, -61.137, 255);
     pros::Task Clamp(Auto_Clamp);
-    pros::Task Sort(Intake);
+    // pros::Task Sort(Intake);
     //Move to first mogo and pus ring stack
     chassis.moveToPoint(-5.95, -49.194, 4000, {.forwards = false});
     //Score preload

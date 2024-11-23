@@ -92,7 +92,7 @@ odom.set_physical_distances(3.5, 4, 2);
 odom.start(); //this can be outside of a while true loop right?
 
 
-
+void opcontrol() {
 while (true){
 
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,

@@ -102,13 +102,26 @@ void Intake(){
 }
 
 
-void Auto_Clamp(){
+void Clamp(){
   
   while (true){
     // If Mogo color is detected
     if ((AutoClamp_Optical.get_hue() >= 70) & (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false)){
     //
      ClampDown = true; 
+    Clamp_Piston.set_value(true);
+    pros::delay(500);
+    }
+}
+}
+
+void Auto_Clamp(){
+  
+  while (true){
+    // If Mogo color is detected
+    if (AutoClamp_Optical.get_hue() >= 70){
+    //
+    //  ClampDown = true; 
     Clamp_Piston.set_value(true);
     pros::delay(500);
     }
