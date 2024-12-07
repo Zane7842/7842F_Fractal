@@ -26,39 +26,77 @@ void SAWP_NegativeFull_Red_BarcBot(){
     Clamp_Piston.set_value(false);
     // pros::Task Sort(Intake);
     // Push alliance off start line and grab alliance's preload
-    IntakeMotors.move(127);
+   
     chassis.moveToPose(-54.3, 45, 30, 4000, {.forwards = true});
-      chassis.waitUntilDone();
+    chassis.waitUntilDone();
     IntakeMotors.move(0);
     //Turn to face mobile goal
     chassis.turnToHeading(290, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE,.minSpeed = 100, });
     //Move to mobile goal (drives backwards)
     chassis.moveToPoint(-24, 24, 4000, {.forwards = false, .maxSpeed = 40 });
     chassis.waitUntilDone();
-    Clamp_Piston.set_value(true);
+    Clamp_Piston.set_value(true); 
     IntakeMotors.move(127);
     //Turn to face first ring stack
     chassis.turnToHeading(0, 900, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     //Intake Ring
-    IntakeMotors.move_voltage(12000);
     chassis.moveToPoint(-24, 41.574, 4000); 
     //Turns to face ring stack 
     // chassis.moveToPose(-48, 0, 30, 4000, {.forwards = false}); 
-   
+    chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-24, 10, 4000);
+
     //let go of mobile goal
     // Clamp_Piston.set_value(false);
     //Moves to second mobile goal
-    chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
-    //Turns to face Rings
-    chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
-    chassis.moveToPoint(-24, -48, 2000);
-    chassis.moveToPoint(-24, -48,2000);
-    //Go to Elevation base
-    chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
-    chassis.moveToPoint(-24, -10, 4000);
+//chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
+//Turns to face Rings
+//     chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+//     chassis.moveToPoint(-24, -48, 2000);
+//     chassis.moveToPoint(-24, -48,2000);
+//     //Go to Elevation base
+//     chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+//     chassis.moveToPoint(-24, -10, 4000);
 }
 
+void SAWP_NegativeFull_Blue_BarcBot(){
+  pros::Task Clamp(Auto_Clamp);
+    chassis.setPose(54.3, 30.8, 0);
+    Clamp_Piston.set_value(false);
+    // pros::Task Sort(Intake);
+    // Push alliance off start line and grab alliance's preload
+   
+    chassis.moveToPose(54.3, 45, -30, 4000, {.forwards = true});
+    chassis.waitUntilDone();
+    IntakeMotors.move(0);
+    //Turn to face mobile goal
+    chassis.turnToHeading(-290, 900, {.direction = AngularDirection::CW_CLOCKWISE,.minSpeed = 100, });
+    //Move to mobile goal (drives backwards)
+    chassis.moveToPoint(24, 24, 4000, {.forwards = false, .maxSpeed = 40 });
+    chassis.waitUntilDone();
+    Clamp_Piston.set_value(true); 
+    IntakeMotors.move(127);
+    //Turn to face first ring stack
+    chassis.turnToHeading(0, 900, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    //Intake Ring
+    chassis.moveToPoint(24, 41.574, 4000); 
+    //Turns to face ring stack 
+    // chassis.moveToPose(-48, 0, 30, 4000, {.forwards = false}); 
+    chassis.turnToPoint(24, 0, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(24, 10, 4000);
 
+    //let go of mobile goal
+    // Clamp_Piston.set_value(false);
+    //Moves to second mobile goal
+//chassis.moveToPose(-24, -24, 300, 6000, {.forwards = false});
+//Turns to face Rings
+//     chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+//     chassis.moveToPoint(-24, -48, 2000);
+//     chassis.moveToPoint(-24, -48,2000);
+//     //Go to Elevation base
+//     chassis.turnToPoint(-24, 0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+//     chassis.moveToPoint(-24, -10, 4000);
+}
 
 void SAWP_Positive_Red(){
 

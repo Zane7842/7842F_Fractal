@@ -38,7 +38,8 @@ void initialize() {
 	pros::lcd::register_btn1_cb(on_center_button);
     chassis.calibrate(); // calibrate sensors
     AutoClamp_Optical.set_led_pwm(100);
-    RingSorter_Optical.set_integration_time(712);
+    RingSorter_Optical.set_integration_time(3);
+    RingSorter_Optical.set_led_pwm(100);
     // AutoClamp_Optical.set_integration_time(712);
 }
 
@@ -75,7 +76,11 @@ ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+
+SAWP_NegativeFull_Blue_BarcBot();
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -95,10 +100,11 @@ void opcontrol() {
 // //  chassis.moveToPoint(0, 24, 4000);
 // chassis.turnToHeading(90, 2000);
 
+// SAWP_NegativeFull_Blue_BarcBot();
    
 // SAWP_NegativeFull_Red_BarcBot();
 
-    pros::Task Clamp(Auto_Clamp);
+    pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
 
 	/*Drive Controls*/
@@ -152,7 +158,8 @@ void opcontrol() {
                     DoinkerDown = !DoinkerDown; 
                 }
                 
-                // If ClampDown is true, move the pistons.         
+           
+// If ClampDown is true, move the pistons.         
                 if(DoinkerDown) {
                     Doinker_Piston.set_value(true);
                 }
@@ -160,7 +167,19 @@ void opcontrol() {
                 else {
                     Doinker_Piston.set_value(false);
                 }
-
+            
+                
+//overrides 
+    //clamp 
+        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+        {
+            ClampOver = !ClampOver;
+            }
+    // sort
+        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+        {
+            SortOver = !SortOver;
+            }
         // delay to save resources
         pros::delay(25);  
     }

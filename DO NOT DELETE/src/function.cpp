@@ -59,7 +59,7 @@ enum RingColor {
     blue = 240, 
 };
 
-bool is_red;
+bool is_red = false;
 
 
 
@@ -87,17 +87,21 @@ void Intake(){
                     is_red = !is_red;   
         //Sets intake to sort blue rings
         }
-
-        if (is_red & (RingSorter_Optical.get_hue() < 11)){
+if  (!SortOver)
+{
+        if (is_red & (RingSorter_Optical.get_hue() < 11) ){
             // pros::delay(50); //  
+             pros::delay(130); //
             IntakeMotors.brake();
-            pros::delay(5); //  
+            pros::delay(70); //  
         }
-        else if (RingSorter_Optical.get_hue()> 200){
-            // pros::delay(50); //   
+        else if (RingSorter_Optical.get_hue() > 200 ){
+            // pros::delay(50); // 
+             pros::delay(130); //  
             IntakeMotors.brake();
-            pros::delay(10); //   
+            pros::delay(70); //   
         }
+    }
     }
 }
 
@@ -106,7 +110,7 @@ void Clamp(){
   
   while (true){
     // If Mogo color is detected
-    if ((AutoClamp_Optical.get_hue() >= 70) & (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false)){
+    if ((AutoClamp_Optical.get_hue() >= 70) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false) )& !ClampOver){ 
     //
      ClampDown = true; 
     Clamp_Piston.set_value(true);

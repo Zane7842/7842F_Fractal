@@ -9,6 +9,7 @@ namespace Globals {
 
 // controller
 extern pros::Controller controller;
+extern pros::Controller controller_mechops;
 
 // motor groups
 extern pros::MotorGroup leftMotors;
@@ -71,4 +72,8 @@ extern bool PTO_Engage;
 // Doinker
 extern pros::adi::Pneumatics Doinker_Piston;
 extern bool DoinkerDown;
+
+// overides
+extern bool ClampOver;
+extern bool SortOver;
 }

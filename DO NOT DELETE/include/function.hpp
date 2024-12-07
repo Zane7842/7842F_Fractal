@@ -10,4 +10,6 @@ void Intake ();
 
 void Auto_Clamp ();
 
+void Clamp ();
+
 

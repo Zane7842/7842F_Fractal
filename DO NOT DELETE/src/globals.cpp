@@ -12,6 +12,7 @@ namespace Globals {
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+pros::Controller controller_mechops(pros::E_CONTROLLER_MASTER);
 
 // motor groups
 pros::MotorGroup leftMotors({6, -3, -1}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
@@ -106,4 +107,7 @@ bool PTO_Engage = false; // by default, the PTO will be unengaged with the drive
 pros::adi::Pneumatics Doinker_Piston('g', false);   // Starts retracted, extends when the ADI port is high
 bool DoinkerDown = false;
 
+//Override
+bool ClampOver = false;
+bool SortOver = false;
 }
