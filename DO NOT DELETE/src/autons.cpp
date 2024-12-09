@@ -178,4 +178,27 @@ void Skills(){
     chassis.waitUntilDone();
     Clamp_Piston.set_value(false);
     chassis.moveToPoint(-59.3, 59.3, 4000);
+    //Grab Second Mogo
+    chassis.moveToPoint(-48, 48, 2000, {.forwards = false, .maxSpeed = 100});
+    chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-48, -24, 2000, {.forwards = false, .maxSpeed = 100});
+
+//---------------------------------
+
+    chassis.turnToPoint(-24, -24, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-24, -24, 4000);
+    //Second Ring
+    chassis.turnToPoint(-24, -48, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-24, -48, 4000);
+    //3rd-4th Ring
+    chassis.turnToPoint(-48, -48, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    chassis.moveToPoint(-60, -48, 4000);
+    //5th Ring
+    // chassis.turnToPoint(-47.1, 58.9, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100}); 5th ring position
+    chassis.moveToPoint(-49.4, -51.9, 4000);
+    //Put Mogo In corner
+    chassis.turnToHeading(230, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
+    chassis.waitUntilDone();
+    Clamp_Piston.set_value(false);
+    chassis.moveToPoint(-59.3, -59.3, 4000);
 }
