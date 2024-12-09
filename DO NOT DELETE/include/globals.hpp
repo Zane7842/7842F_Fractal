@@ -49,24 +49,25 @@ extern lemlib::ExpoDriveCurve steerCurve;
 // create the chassis
 extern lemlib::Chassis chassis;
 
+//-----------------------------------------------------------
+
 // Intake
 extern pros::MotorGroup IntakeMotors;
-extern pros::Optical RingSorter_Optical;
+extern pros::Optical Ring_Optical;
 extern int Ring_Hue;
-
 
 // Clamp
 extern pros::adi::Pneumatics Clamp_Piston;
 extern pros::Optical AutoClamp_Optical;
 extern bool ClampDown;
 
+//WallStake
+extern pros::MotorGroup WallStakeMotors;
+extern bool WallStake;
 
 // Hang
 extern pros::adi::Pneumatics PTO_LeftPiston;
 extern pros::adi::Pneumatics PTO_RightPiston;
-extern pros::Rotation HangConveyor_Rotation;
-
-extern bool hang_locked;
 extern bool PTO_Engage;
 
 // Doinker

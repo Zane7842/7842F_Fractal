@@ -2,9 +2,7 @@
 #include "main.h"
 #include "globals.hpp"
 
-void Set_Hang ();
-
-void Start_Hang ();
+void Sort();
 
 void Intake ();
 
@@ -12,4 +10,8 @@ void Auto_Clamp ();
 
 void Clamp ();
 
+void Load_WallStake();
 
+void Score_WallStake();
+
+void LadyBrown();

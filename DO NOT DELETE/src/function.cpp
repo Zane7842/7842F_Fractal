@@ -6,62 +6,13 @@
 
 using namespace Globals;
 
-
-void Set_Hang(){
-    //Enggage both PTO pistons with the drive
-    PTO_LeftPiston.set_value(true); 
-    PTO_RightPiston.set_value(true); 
-    //Conveyor move up
-    chassis.tank(127, 127); 
-
-    if (HangConveyor_Rotation.get_position() == (27421)){
-    PTO_LeftPiston.set_value(false); 
-    }
-}
-
-void Start_Hang(){
-    //Enggage both PTO pistons with the drive
-    PTO_LeftPiston.set_value(true); 
-    PTO_RightPiston.set_value(true); 
-
-    chassis.tank(-127, -127); //Drive Backwards (conveyor down)
-
-    for (int i = 0; i<4; i++ ){
-
-        while (true){
-            //If Crossed state, switch conveyor's direction
-            if (HangConveyor_Rotation.get_position() == (16000)){  
-            chassis.tank(127, 127); //Drive forward
-            break;
-            }
-            //If Apart state, switch conveyor's direction
-            if (HangConveyor_Rotation.get_position() == (27421)){  
-            chassis.tank(-127, -127); //Drive forward
-            break;
-            }
-        }      
-    }
-
-    while (true){
-
-        if (HangConveyor_Rotation.get_position() == (15000)){
-            PTO_LeftPiston.set_value(false); //Locks Hang
-            chassis.tank(0,0); //Stops Hang cnoveyor
-            IntakeMotors.move_voltage(12000); //Score High Stake
-            pros::delay(40); //Delay to give enough time for ring to be scored
-            IntakeMotors.move_voltage(0); //Stop Intake for no reason at all...
-        }
-    }
-}
-
-enum RingColor {   
-    red = 0, 
-    blue = 240, 
-};
-
 bool is_red = false;
 
-
+void Sort(){
+    pros::delay(130); //
+    IntakeMotors.brake();
+    pros::delay(70); //  
+}
 
 void Intake(){
 
@@ -77,57 +28,79 @@ void Intake(){
         IntakeMotors.move_voltage(0);
         }
 
-        //Define Enum Variable
-        RingColor Ring_Hue = blue;
-        //Sets intake to sort red rings
-
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-                    // If this is true, ClampDown will changed to false
-                    // and vice versa. 
                     is_red = !is_red;   
-        //Sets intake to sort blue rings
+        //Sets intake to sort opposite color of the previous sort color
         }
-if  (!SortOver)
-{
-        if (is_red & (RingSorter_Optical.get_hue() < 11) ){
-            // pros::delay(50); //  
-             pros::delay(130); //
-            IntakeMotors.brake();
-            pros::delay(70); //  
+        if  (!SortOver){
+            //Sort Red
+            if (is_red & (Ring_Optical.get_hue() < 11) ){
+               Sort();  
+            }
+            //Sort Blue
+            else if (is_red == false & Ring_Optical.get_hue() > 200 ){
+                Sort();
+            }
         }
-        else if (RingSorter_Optical.get_hue() > 200 ){
-            // pros::delay(50); // 
-             pros::delay(130); //  
-            IntakeMotors.brake();
-            pros::delay(70); //   
-        }
-    }
     }
 }
-
 
 void Clamp(){
   
-  while (true){
-    // If Mogo color is detected
-    if ((AutoClamp_Optical.get_hue() >= 70) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false) )& !ClampOver){ 
-    //
-     ClampDown = true; 
-    Clamp_Piston.set_value(true);
-    pros::delay(500);
+    while (true){
+        // If Mogo color is detected
+        if ((AutoClamp_Optical.get_hue() >= 70) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false) )& !ClampOver){ 
+        //
+        ClampDown = true; 
+        Clamp_Piston.set_value(true);
+        pros::delay(500);
+        }
     }
-}
 }
 
 void Auto_Clamp(){
   
-  while (true){
-    // If Mogo color is detected
-    if (AutoClamp_Optical.get_hue() >= 70){
-    //
-    //  ClampDown = true; 
-    Clamp_Piston.set_value(true);
-    pros::delay(500);
+    while (true){
+        // If Mogo color is detected
+        if (AutoClamp_Optical.get_hue() >= 70){
+        //
+        //  ClampDown = true; 
+        Clamp_Piston.set_value(true);
+        pros::delay(500);
+        }
     }
 }
+
+
+void Load_WallStake(){
+    WallStakeMotors.move_absolute(0, 127);
+        //When ring is loaded, move arm out of way of intake
+        if (Ring_Optical.get_hue() < 11 || Ring_Optical.get_hue() > 200) {
+            pros::delay(1000);
+            WallStakeMotors.move_absolute(0, 127);
+        }
+}
+
+void Score_WallStake(){
+    WallStakeMotors.move_absolute(0, 127);
+            //Return arm to defualt position
+            WallStakeMotors.move_absolute(0, 127);
+}
+
+void LadyBrown(){
+
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+        WallStake = !WallStake; 
+
+    //Following if statements are embeded within the above if statmenet so that the LadyBrown arm only moves if the "" button is pressed
+        if(WallStake){
+            //Score on WallStake
+            Score_WallStake();
+        }
+
+        if(WallStake == false){
+            //Move arm to loading position
+            Load_WallStake();
+        }
+    }
 }

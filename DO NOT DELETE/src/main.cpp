@@ -34,13 +34,13 @@ void on_center_button() {
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
-
 	pros::lcd::register_btn1_cb(on_center_button);
+    
     chassis.calibrate(); // calibrate sensors
     AutoClamp_Optical.set_led_pwm(100);
-    RingSorter_Optical.set_integration_time(3);
-    RingSorter_Optical.set_led_pwm(100);
-    // AutoClamp_Optical.set_integration_time(712);
+    Ring_Optical.set_integration_time(3);
+    Ring_Optical.set_led_pwm(100);
+
 }
 
 /**
@@ -96,90 +96,53 @@ SAWP_NegativeFull_Blue_BarcBot();
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-//  chassis.setPose(0, 0, 0);
-// //  chassis.moveToPoint(0, 24, 4000);
-// chassis.turnToHeading(90, 2000);
 
-// SAWP_NegativeFull_Blue_BarcBot();
-   
-// SAWP_NegativeFull_Red_BarcBot();
-
+/*Tasks*/
     pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
 
-	/*Drive Controls*/
-   
-         while (true) {
+//Main Loop
+    while (true) {
+
+/*Drive Controls*/
         // get left y and right x positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
         // move the robot
         chassis.arcade(leftY, rightX);
-      
-/*Intake Controls*/
-
-        
- /*Clamp Controls*/
+    
+/*Clamp Controls*/
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             // If this is true, ClampDown will changed to false
             // and vice versa. 
             ClampDown = !ClampDown; 
         }
-        
-        // If ClampDown is true, move the pistons.         
-        if(ClampDown) {
-            Clamp_Piston.set_value(true);
-        }
-        // Else, don't
-        else {
-            Clamp_Piston.set_value(false);
-        }
-
-/*Hang Controls*/
-
-        // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) { 
-        //     Set_Hang ();
-        // }
-        // else if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-        //     Start_Hang ();
-        // }
-
-        // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-
-        // }
-
+    
+        Clamp_Piston.set_value(ClampDown);
+     
 /*Doinker Controls*/
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-                    // If this is true, ClampDown will changed to false
-                    // and vice versa. 
-                    DoinkerDown = !DoinkerDown; 
-                }
-                
-           
-// If ClampDown is true, move the pistons.         
-                if(DoinkerDown) {
-                    Doinker_Piston.set_value(true);
-                }
-                // Else, don't
-                else {
-                    Doinker_Piston.set_value(false);
-                }
+            // If this is true, DoinkerDown will changed to false
+            // and vice versa. 
+            DoinkerDown = !DoinkerDown; 
+        }
             
-                
-//overrides 
-    //clamp 
-        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
-        {
+        Doinker_Piston.set_value(DoinkerDown);
+                          
+//Overides-------------------------------------------------------------------------------
+
+    //Auto Clamp 
+        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
             ClampOver = !ClampOver;
             }
-    // sort
-        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
-        {
+    // Ring Sort
+        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
             SortOver = !SortOver;
             }
+        
         // delay to save resources
         pros::delay(25);  
     }
