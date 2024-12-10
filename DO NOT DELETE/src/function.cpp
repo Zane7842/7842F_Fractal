@@ -6,39 +6,39 @@
 
 using namespace Globals;
 
-bool is_red = false;
+//Boolean vairble for sleecting what color to sort
+bool sort_red = false;
 
 void Sort(){
-    pros::delay(130); //
-    IntakeMotors.brake();
-    pros::delay(70); //  
+    pros::delay(130); //Delay to tune break point
+    IntakeMotors.brake(); //Breaks intake motors
+    pros::delay(70); //Delay to control length of break period
 }
 
 void Intake(){
-
     while (true){
-
+        //If button R1 is being pressed, spin teh intake forwards at full speed
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         IntakeMotors.move_voltage(12000);
         }
+        //If button R1 is being pressed, spin the intake backwards at full speed
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         IntakeMotors.move_voltage(-12000);
         }
         else {
         IntakeMotors.move_voltage(0);
         }
-
+        //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-                    is_red = !is_red;   
-        //Sets intake to sort opposite color of the previous sort color
+            sort_red = !sort_red;   
         }
         if  (!SortOver){
-            //Sort Red
-            if (is_red & (Ring_Optical.get_hue() < 11) ){
+            //If sort_red is true: Sort Red Rings
+            if (sort_red & (Ring_Optical.get_hue() < 11) ){
                Sort();  
             }
-            //Sort Blue
-            else if (is_red == false & Ring_Optical.get_hue() > 200 ){
+            //If sort_red is false: Sort Blue Rings
+            else if (sort_red == false & Ring_Optical.get_hue() > 200 ){
                 Sort();
             }
         }
