@@ -96,7 +96,7 @@ pros::MotorGroup WallStakeMotors ({1, 2});
 bool WallStake = true;
 
 // Clamp
-pros::adi::Pneumatics Clamp_Piston('h', false);   // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
 pros::Optical AutoClamp_Optical (20);
 bool ClampDown = false; // by default, the clamp will be up.
 
