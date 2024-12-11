@@ -40,6 +40,8 @@ void initialize() {
     AutoClamp_Optical.set_led_pwm(100);
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
+    WallStakeMotors.set_brake_mode_all(pros::MotorBrake::hold);
+
 
 }
 
@@ -100,6 +102,7 @@ void opcontrol() {
 /*Tasks*/
     pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
+    pros::Task ladyBrown(LadyBrown);
 
 //Main Loop
     while (true) {
@@ -114,7 +117,7 @@ void opcontrol() {
     
 /*Clamp Controls*/
 
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
             // If this is true, ClampDown will changed to false
             // and vice versa. 
             ClampDown = !ClampDown; 
@@ -124,13 +127,22 @@ void opcontrol() {
      
 /*Doinker Controls*/
 
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
             // If this is true, DoinkerDown will changed to false
             // and vice versa. 
             DoinkerDown = !DoinkerDown; 
         }
             
         Doinker_Piston.set_value(DoinkerDown);
+
+/*Wall Stake Controls*/
+
+ 
+
+ 
+
+
+
                           
 //Overides-------------------------------------------------------------------------------
 

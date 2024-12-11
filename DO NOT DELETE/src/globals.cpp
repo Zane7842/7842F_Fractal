@@ -13,10 +13,10 @@ namespace Globals {
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Controller controller_mechops(pros::E_CONTROLLER_MASTER);
+// motor groups                                                                                                                                                                                                                                                                                                               pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-// motor groups
-pros::MotorGroup leftMotors({6, -3, -1}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({-2, 4, 7},                                                                                                                                                                                                                                                                                                               pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup leftMotors({-11, -12, -13}); // left motors on ports 1, 2, 3
+pros::MotorGroup rightMotors({1, 2, 3}); // right motors on ports 4, 5, 6
 
 // Inertial Sensor on port 10
 pros::Imu imu(15);
@@ -87,28 +87,28 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 // Intake
-pros::MotorGroup IntakeMotors ({10, -5});
-pros::Optical Ring_Optical (21);
+pros::Motor IntakeMotors (15);
+pros::Optical Ring_Optical (8);
 bool Color_Switch = false;
 
 //Wall Stake 
-pros::MotorGroup WallStakeMotors ({1, 2});
-bool WallStake = true;
+pros::MotorGroup WallStakeMotors ({-20, 19});
+bool WallStake = false;
 
 // Clamp
-pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
-pros::Optical AutoClamp_Optical (20);
+pros::adi::Pneumatics Clamp_Piston('b', true);   // Starts extended, retracts when the ADI port is high
+pros::Optical AutoClamp_Optical (6);
 bool ClampDown = false; // by default, the clamp will be up.
 
 // Hang
-pros::adi::Pneumatics PTO_LeftPiston('b', false);   // Starts retracted, extends when the ADI port is high
-pros::adi::Pneumatics PTO_RightPiston('c', false);   // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics PTO_LeftPiston('c', false);   // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics PTO_RightPiston('d', false);   // Starts retracted, extends when the ADI port is high
 pros::Rotation HangConveyor_Rotation(21);
 bool hang_locked = false;
 bool PTO_Engage = false; // by default, the PTO will be unengaged with the drive (locked)
 
 // Doinker
-pros::adi::Pneumatics Doinker_Piston('g', false);   // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics Doinker_Piston('a', false);   // Starts retracted, extends when the ADI port is high
 bool DoinkerDown = false;
 
 //Override

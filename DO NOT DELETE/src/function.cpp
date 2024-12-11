@@ -3,6 +3,7 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "globals.hpp"
 #include "pros/colors.hpp"
+#include "pros/misc.h"
 
 using namespace Globals;
 
@@ -29,7 +30,7 @@ void Intake(){
         IntakeMotors.move_voltage(0);
         }
         //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             sort_red = !sort_red;   
         }
         if  (!SortOver){
@@ -38,7 +39,7 @@ void Intake(){
                Sort();  
             }
             //If sort_red is false: Sort Blue Rings
-            else if (sort_red == false & Ring_Optical.get_hue() > 200 ){
+            else if ((!sort_red) & (Ring_Optical.get_hue() > 200) ){
                 Sort();
             }
         }
@@ -49,7 +50,7 @@ void Clamp(){
   
     while (true){
         // If Mogo color is detected
-        if ((AutoClamp_Optical.get_hue() >= 70) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false) )& !ClampOver){ 
+        if ((AutoClamp_Optical.get_hue() >= 70) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )& !ClampOver){ 
         //
         ClampDown = true; 
         Clamp_Piston.set_value(true);
@@ -71,7 +72,6 @@ void Auto_Clamp(){
     }
 }
 
-
 void Load_WallStake(){
     WallStakeMotors.move_absolute(0, 100);
         //When ring is loaded, move arm out of way of intake
@@ -84,23 +84,38 @@ void Load_WallStake(){
 void Score_WallStake(){
     WallStakeMotors.move_absolute(120, 127);
             //Return arm to defualt position
-            WallStakeMotors.move_absolute(-20, 127);
+    WallStakeMotors.move_absolute(-19, 127);
 }
 
 void LadyBrown(){
-
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-        WallStake = !WallStake; 
-
-    //Following if statements are embeded within the above if statmenet so that the LadyBrown arm only moves if the "" button is pressed
+    while (true){
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            WallStake = !WallStake; 
+        }
         if(WallStake){
-            //Score on WallStake
-            Score_WallStake();
+        //Score Wall Stake
+        WallStakeMotors.move_absolute(120, 127);
+        pros::delay(2000);
+        //Return arm to defualt position
+        WallStakeMotors.move_absolute(-19, 127);
         }
 
         if(WallStake == false){
             //Move arm to loading position
-            Load_WallStake();
+            WallStakeMotors.move_absolute(0, 127);
         }
     }
 }
+
+//Manual tipping control
+
+ // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    // WallStakeMotors.move_voltage(12000);
+    // }
+    // //If button R1 is being pressed, spin the intake backwards at full speed
+    // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+    // WallStakeMotors.move_voltage(-12000);
+    // }
+    // else if () {
+    // WallStakeMotors.move_voltage(0);
+    // }

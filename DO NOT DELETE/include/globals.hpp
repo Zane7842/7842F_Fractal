@@ -52,7 +52,7 @@ extern lemlib::Chassis chassis;
 //-----------------------------------------------------------
 
 // Intake
-extern pros::MotorGroup IntakeMotors;
+extern pros::Motor IntakeMotors;
 extern pros::Optical Ring_Optical;
 extern int Ring_Hue;
 
