@@ -87,35 +87,81 @@ void Score_WallStake(){
     WallStakeMotors.move_absolute(-19, 127);
 }
 
-void LadyBrown(){
-    while (true){
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-            WallStake = !WallStake; 
-        }
-        if(WallStake){
-        //Score Wall Stake
-        WallStakeMotors.move_absolute(120, 127);
-        pros::delay(2000);
-        //Return arm to defualt position
+// void LadyBrown(){
+//     while (true){
+//         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+//             WallStake = !WallStake; 
+//         }
+//         if(WallStake){
+//         //Score Wall Stake
+//         WallStakeMotors.move_absolute(120, 127);
+//         pros::delay(2000);
+//         //Return arm to defualt position
+//         WallStakeMotors.move_absolute(-19, 127);
+//         }
+
+//         if(WallStake == false){
+//             //Move arm to loading position
+//             WallStakeMotors.move_absolute(0, 127);
+//         }
+//     }
+// }
+
+int arm_state = 0;
+bool use_macro = true;
+
+void arm(){
+    //Out of way position
+    if (arm_state == 0){
         WallStakeMotors.move_absolute(-19, 127);
+        arm_state = 1;
+        return;
+    }
+    //Load Position
+     if (arm_state == 1){
+        WallStakeMotors.move_absolute(0, 127);
+        arm_state = 2;
+        return;
+    }
+    //Prime Position
+     if (arm_state == 2){
+        WallStakeMotors.move_absolute(80, 127);
+        arm_state = 3;
+        return;
+    }
+    //Score position
+    if (arm_state == 3){
+        WallStakeMotors.move_absolute(120, 127);
+        arm_state = 0;
+        return;
+    }
+}
+
+void LadyBrown(){
+
+    while (true) {
+
+        //Manual control
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        use_macro = false;
+        WallStakeMotors.move_voltage(12000);
+        }
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        use_macro = false;
+        WallStakeMotors.move_voltage(-12000);
+        }
+        else if (!use_macro) {
+        WallStakeMotors.move_voltage(0);
         }
 
-        if(WallStake == false){
-            //Move arm to loading position
-            WallStakeMotors.move_absolute(0, 127);
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            if (!use_macro) {
+            // User was controlling the arm manually, but pressed B, so we switch
+            // back into macro mode.
+            use_macro = true;
+            arm();
+            }
         }
     }
 }
 
-//Manual tipping control
-
- // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-    // WallStakeMotors.move_voltage(12000);
-    // }
-    // //If button R1 is being pressed, spin the intake backwards at full speed
-    // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-    // WallStakeMotors.move_voltage(-12000);
-    // }
-    // else if () {
-    // WallStakeMotors.move_voltage(0);
-    // }
