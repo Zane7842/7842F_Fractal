@@ -1,4 +1,5 @@
 #pragma once
+#include "function.hpp"
 #include "main.h"
 #include "globals.hpp"
 #include "pros/imu.hpp"
@@ -64,6 +65,7 @@ extern bool ClampDown;
 //WallStake
 extern pros::MotorGroup WallStakeMotors;
 extern bool WallStake;
+extern lemlib::PID LadyBrown_pid;
 
 // Hang
 extern pros::adi::Pneumatics PTO_LeftPiston;

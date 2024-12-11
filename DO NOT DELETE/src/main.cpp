@@ -106,7 +106,7 @@ void opcontrol() {
 
 //Main Loop
     while (true) {
-
+        
 /*Drive Controls*/
         // get left y and right x positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

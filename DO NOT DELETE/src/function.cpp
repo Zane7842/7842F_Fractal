@@ -1,4 +1,5 @@
 #include "function.hpp"
+#include "lemlib/chassis/odom.hpp"
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "globals.hpp"
@@ -107,35 +108,11 @@ void Score_WallStake(){
 //     }
 // }
 
+
 int arm_state = 0;
 bool use_macro = true;
-
-void arm(){
-    //Out of way position
-    if (arm_state == 0){
-        WallStakeMotors.move_absolute(-19, 127);
-        arm_state = 1;
-        return;
-    }
-    //Load Position
-     if (arm_state == 1){
-        WallStakeMotors.move_absolute(0, 127);
-        arm_state = 2;
-        return;
-    }
-    //Prime Position
-     if (arm_state == 2){
-        WallStakeMotors.move_absolute(80, 127);
-        arm_state = 3;
-        return;
-    }
-    //Score position
-    if (arm_state == 3){
-        WallStakeMotors.move_absolute(120, 127);
-        arm_state = 0;
-        return;
-    }
-}
+float output;
+float target_position;
 
 void LadyBrown(){
 
@@ -153,14 +130,42 @@ void LadyBrown(){
         else if (!use_macro) {
         WallStakeMotors.move_voltage(0);
         }
+        else {
+            // If we are using the PID controller (not manually controlling the arm),
+            // then we use the output of the PID controller as our input voltage to
+            // the motor.
+        output = LadyBrown_pid.update(WallStakeMotors.get_position_all()[0] - target_position);
+        WallStakeMotors.move(output);
+        }
+
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             if (!use_macro) {
             // User was controlling the arm manually, but pressed B, so we switch
             // back into macro mode.
             use_macro = true;
-            arm();
             }
+            //Out of way position
+            if (arm_state == 0){
+                target_position = -19;
+                arm_state = 1;
+            }
+            //Load Position
+            else if (arm_state == 1){
+                target_position = 0;
+                arm_state = 2;
+            }
+            //Prime Position
+            else if (arm_state == 2){
+                target_position = 80;
+                arm_state = 3;
+            }
+            //Score position
+            else if (arm_state == 3){
+                target_position = 120;
+                arm_state = 0;
+            }
+            
         }
     }
 }

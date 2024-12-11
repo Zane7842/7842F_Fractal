@@ -1,3 +1,4 @@
+#include "function.hpp"
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "pros/imu.hpp"
@@ -94,6 +95,9 @@ bool Color_Switch = false;
 //Wall Stake 
 pros::MotorGroup WallStakeMotors ({-20, 19});
 bool WallStake = false;
+
+// LadyBrown Pid controller
+PID LadyBrown_pid (5, 0, 20);
 
 // Clamp
 pros::adi::Pneumatics Clamp_Piston('b', true);   // Starts extended, retracts when the ADI port is high
