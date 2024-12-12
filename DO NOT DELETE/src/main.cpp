@@ -33,7 +33,7 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	// pros::lcd::set_text(1, "Hello PROS User!");
 	pros::lcd::register_btn1_cb(on_center_button);
     
     chassis.calibrate(); // calibrate sensors
@@ -41,7 +41,8 @@ void initialize() {
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::hold);
-    WallStakeMotors.tare_position();
+    WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+    // WallStakeMotors.set_zero_position(110);
 
 
 }

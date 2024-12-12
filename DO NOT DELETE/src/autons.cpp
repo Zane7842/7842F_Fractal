@@ -134,7 +134,7 @@ void SAWP_Negative_Red_AllianceStake(){
     chassis.moveToPoint(-54.3, 7, 4000);
     chassis.turnToPoint(-69, 0, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     chassis.waitUntilDone();
-    Score_WallStake();
+    // Score_WallStake();
     pros::delay(500);
     //Grab First Mobile Goal
     chassis.moveToPoint(-24, 24, 4000, {.forwards = false, .maxSpeed = 100});

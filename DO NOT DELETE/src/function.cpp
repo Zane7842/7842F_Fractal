@@ -14,7 +14,7 @@ bool sort_red = false;
 void Sort(){
     pros::delay(130); //Delay to tune break point
     IntakeMotors.brake(); //Breaks intake motors
-    pros::delay(70); //Delay to control length of break period
+    pros::delay(1000); //Delay to control length of break period
 }
 
 void Intake(){
@@ -76,7 +76,7 @@ void Auto_Clamp(){
 bool use_macro;
 float output;
 float target_position;
-int arm_state = 0;
+int arm_state = 1;
 
 void LadyBrown(){
 
@@ -98,12 +98,13 @@ void LadyBrown(){
             // If we are using the PID controller (not manually controlling the arm),
             // then we use the output of the PID controller as our input voltage to
             // the motor.
-        output = LadyBrown_pid.update(WallStakeMotors.get_position_all()[0] - target_position);
-        WallStakeMotors.move(output);
+        // output = LadyBrown_pid.update(WallStakeMotors.get_position_all()[0] - target_position);
+        WallStakeMotors.move_absolute(target_position, 127);
+      pros::lcd::set_text(0, "State ? of target_position: " + std::to_string(target_position));
         }
 
 
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             if (!use_macro) {
             // User was controlling the arm manually, but pressed B, so we switch
             // back into macro mode.
@@ -112,24 +113,31 @@ void LadyBrown(){
             //Out of way position
             if (arm_state == 0){
                 target_position = -19;
+                    //  WallStakeMotors.move_absolute(20, 127);
+            pros::lcd::set_text(0, "State 0 of target_position: " + std::to_string(target_position));
                 arm_state = 1;
             }
             //Load Position
             else if (arm_state == 1){
                 target_position = 0;
+                pros::lcd::set_text(1, "State 1 of target_position: " + std::to_string(target_position));
+                // WallStakeMotors.move_absolute(40, 127);
                 arm_state = 2;
             }
             //Prime Position
             else if (arm_state == 2){
+            pros::lcd::set_text(2, "State 2 of target_position:" + std::to_string(target_position));
+
                 target_position = 80;
                 arm_state = 3;
             }
             //Score position
             else if (arm_state == 3){
                 target_position = 120;
+            pros::lcd::set_text(3, "State 3 of target_position:" + std::to_string(target_position));
                 arm_state = 0;
             }
-            
+    
         }
     }
 }
