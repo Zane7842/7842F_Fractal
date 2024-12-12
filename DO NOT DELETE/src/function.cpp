@@ -85,37 +85,8 @@ void Load_WallStake(){
 void Score_WallStake(){
     WallStakeMotors.move_absolute(0, 127);
             //Return arm to defualt position
-
-    WallStakeMotors.move_absolute(-19, 127);
-            WallStakeMotors.move_absolute(0, 127);
-
+            WallStakeMotors.move_absolute(-20, 127);
 }
-
-// void LadyBrown(){
-//     while (true){
-//         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-//             WallStake = !WallStake; 
-//         }
-//         if(WallStake){
-//         //Score Wall Stake
-//         WallStakeMotors.move_absolute(120, 127);
-//         pros::delay(2000);
-//         //Return arm to defualt position
-//         WallStakeMotors.move_absolute(-19, 127);
-//         }
-
-//         if(WallStake == false){
-//             //Move arm to loading position
-//             WallStakeMotors.move_absolute(0, 127);
-//         }
-//     }
-// }
-
-
-int arm_state = 0;
-bool use_macro = true;
-float output;
-float target_position;
 
 void LadyBrown(){
 
