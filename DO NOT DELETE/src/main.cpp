@@ -41,6 +41,7 @@ void initialize() {
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::hold);
+    WallStakeMotors.tare_position();
 
 
 }

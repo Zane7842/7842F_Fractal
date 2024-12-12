@@ -87,6 +87,10 @@ void Score_WallStake(){
             //Return arm to defualt position
             WallStakeMotors.move_absolute(-20, 127);
 }
+bool use_macro;
+float output;
+float target_position;
+int arm_state = 0;
 
 void LadyBrown(){
 
