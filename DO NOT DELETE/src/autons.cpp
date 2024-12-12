@@ -128,10 +128,9 @@ void SAWP_Positive_Red(){
 }
 
 void SAWP_Negative_Red_AllianceStake(){
-    
     pros::Task Clamp(Auto_Clamp);
     //Score Alliance Stake
-    chassis.setPose(-55, 16.3, 180);
+    chassis.setPose(-54.3, 16.3, 180);
     chassis.moveToPoint(-54.3, 7, 4000);
     chassis.turnToPoint(-69, 0, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     chassis.waitUntilDone();
@@ -156,10 +155,10 @@ void SAWP_Negative_Red_AllianceStake(){
 void Skills(){
     pros::Task Clamp(Auto_Clamp);
     //Score Alliance Stake
-    chassis.setPose(-55, 0, 270);
+    chassis.setPose(-54.3, 0, 270);
     //Grab First Mobile goal
     chassis.moveToPoint(-48, 0, 2000);
-    chassis.turnToPoint(-48, 24, 2000, {.forwards = false, .direction = AngularDirection::CCW_COUNTERCLOCKWISE}); //Aim mogo
+    chassis.turnToHeading(0, 2000);
     chassis.moveToPoint(-48, 24, 4000, {.forwards = false, .maxSpeed = 100});
     //First Ring
     IntakeMotors.move_voltage(12000);
@@ -175,18 +174,17 @@ void Skills(){
     // chassis.turnToPoint(-47.1, 58.9, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100}); 5th ring position
     chassis.moveToPoint(-49.4, 51.9, 4000);
     //Put Mogo In corner
-    chassis.turnToPoint(-64, 64, 2000, {.forwards = false, .direction = AngularDirection::CW_CLOCKWISE});
+    chassis.turnToHeading(130, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     chassis.waitUntilDone();
     Clamp_Piston.set_value(false);
-    chassis.moveToPoint(-59.3, 59.3, 4000, {.forwards = false, .maxSpeed = 100});
-    
-//---------------------------------
-
+    chassis.moveToPoint(-59.3, 59.3, 4000);
     //Grab Second Mogo
     chassis.moveToPoint(-48, 48, 2000, {.forwards = false, .maxSpeed = 100});
-    chassis.turnToPoint(-64, -64, 2000, {.forwards = false, .direction = AngularDirection::CW_CLOCKWISE}); //Aim for corner
+    chassis.turnToHeading(180, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-48, -24, 2000, {.forwards = false, .maxSpeed = 100});
-    //First ring
+
+//---------------------------------
+
     chassis.turnToPoint(-24, -24, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
     chassis.moveToPoint(-24, -24, 4000);
     //Second Ring
@@ -199,38 +197,8 @@ void Skills(){
     // chassis.turnToPoint(-47.1, 58.9, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100}); 5th ring position
     chassis.moveToPoint(-49.4, -51.9, 4000);
     //Put Mogo In corner
-    chassis.turnToPoint(-64, 64, 2000, {.forwards = false, .direction = AngularDirection::CCW_COUNTERCLOCKWISE}); //Aim for corner
+    chassis.turnToHeading(230, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 100});
     chassis.waitUntilDone();
     Clamp_Piston.set_value(false);
     chassis.moveToPoint(-59.3, -59.3, 4000);
-
-//--------------------------------------
-
-    //Score Wall Stake
-    chassis.moveToPose(0, -48, 90, 4000);
-    chassis.waitUntilDone();
-    Load_WallStake();
-    chassis.turnToPoint(0, -69, 2000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
-    chassis.moveToPoint(0, -57, 2000);
-    chassis.waitUntilDone();
-    Score_WallStake();
-    //Grab 3rd mobile goal
-    chassis.moveToPoint(0, -43.5, 2000, {.forwards = false, .maxSpeed = 100});
-    chassis.turnToPoint(59, -24, 2000, {.forwards = false, .direction = AngularDirection::CW_CLOCKWISE});
-    chassis.moveToPoint(59, -24, 4000, {.forwards = false, .maxSpeed = 100});
-    //Push 3rd goal in corner
-    chassis.turnToPoint(64, -64, 2000, {.forwards = false, .direction = AngularDirection::CW_CLOCKWISE});
-    chassis.waitUntilDone();
-    Clamp_Piston.set_value(false);
-    chassis.moveToPoint(-59.3, -59.3, 4000, {.forwards = false, .maxSpeed = 100});
-    //Grab fourth goal
-    chassis.turnToPoint(36, 36, 2000, {.forwards = false, .direction = AngularDirection::CW_CLOCKWISE});
-    chassis.moveToPoint(36, 36, 5000, {.forwards = false, .maxSpeed = 100});
-    //Intake final ring
-    chassis.turnToPoint(24, 24, 2000, {.direction = AngularDirection::CW_CLOCKWISE});
-    chassis.moveToPoint(24, 24, 5000, {.maxSpeed = 100});
-    //Push 4th mobile goal in corner
-    chassis.waitUntilDone();
-    Clamp_Piston.set_value(false);
-    chassis.moveToPoint(59.3, 59.3, 5000, {.forwards = false, .maxSpeed = 100});
 }

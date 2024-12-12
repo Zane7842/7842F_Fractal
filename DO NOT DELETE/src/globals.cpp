@@ -100,8 +100,11 @@ bool WallStake = false;
 PID LadyBrown_pid (5, 0, 20);
 
 // Clamp
+
 pros::adi::Pneumatics Clamp_Piston('b', true);   // Starts extended, retracts when the ADI port is high
 pros::Optical AutoClamp_Optical (6);
+
+
 bool ClampDown = false; // by default, the clamp will be up.
 
 // Hang
