@@ -73,20 +73,6 @@ void Auto_Clamp(){
     }
 }
 
-void Load_WallStake(){
-    WallStakeMotors.move_absolute(0, 127);
-        //When ring is loaded, move arm out of way of intake
-        if (Ring_Optical.get_hue() < 11 || Ring_Optical.get_hue() > 200) {
-            pros::delay(1000);
-            WallStakeMotors.move_absolute(0, 127);
-        }
-}
-
-void Score_WallStake(){
-    WallStakeMotors.move_absolute(0, 127);
-            //Return arm to defualt position
-            WallStakeMotors.move_absolute(-20, 127);
-}
 bool use_macro;
 float output;
 float target_position;
