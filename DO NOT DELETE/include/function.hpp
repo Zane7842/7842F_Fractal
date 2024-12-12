@@ -10,8 +10,4 @@ void Auto_Clamp ();
 
 void Clamp ();
 
-void Load_WallStake();
-
-void Score_WallStake();
-
 void LadyBrown();
