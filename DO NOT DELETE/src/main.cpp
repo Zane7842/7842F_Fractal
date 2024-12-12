@@ -7,6 +7,7 @@
 #include "function.hpp"
 #include "auton_selector.hpp"
 #include "autons.hpp"
+#include "pros/motors.h"
 using namespace Globals;
 
 /**
@@ -33,7 +34,7 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	// pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(1, "Hello PROS User!");
 	pros::lcd::register_btn1_cb(on_center_button);
     
     chassis.calibrate(); // calibrate sensors
@@ -100,6 +101,8 @@ SAWP_NegativeFull_Blue_BarcBot();
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
+    printf("my float: %f\n", ClampDown);
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);

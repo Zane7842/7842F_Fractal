@@ -12,9 +12,9 @@ using namespace Globals;
 bool sort_red = false;
 
 void Sort(){
-    pros::delay(130); //Delay to tune break point
+    pros::delay(9); //Delay to tune break point
     IntakeMotors.brake(); //Breaks intake motors
-    pros::delay(1000); //Delay to control length of break period
+    pros::delay(3000); //Delay to control length of break period
 }
 
 void Intake(){
@@ -44,6 +44,8 @@ void Intake(){
                 Sort();
             }
         }
+
+     pros::delay(10);
     }
 }
 
@@ -85,11 +87,11 @@ void LadyBrown(){
         //Manual control
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         use_macro = false;
-        WallStakeMotors.move_voltage(12000);
+        WallStakeMotors.move_voltage(6000);
         }
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         use_macro = false;
-        WallStakeMotors.move_voltage(-12000);
+        WallStakeMotors.move_voltage(-6000);
         }
         else if (!use_macro) {
         WallStakeMotors.move_voltage(0);
@@ -99,8 +101,8 @@ void LadyBrown(){
             // then we use the output of the PID controller as our input voltage to
             // the motor.
         // output = LadyBrown_pid.update(WallStakeMotors.get_position_all()[0] - target_position);
-        WallStakeMotors.move_absolute(target_position, 127);
-      pros::lcd::set_text(0, "State ? of target_position: " + std::to_string(target_position));
+        WallStakeMotors.move_absolute(target_position * 5, 127);
+    // WallStakeMotors.move(output);
         }
 
 
@@ -112,33 +114,30 @@ void LadyBrown(){
             }
             //Out of way position
             if (arm_state == 0){
-                target_position = -19;
-                    //  WallStakeMotors.move_absolute(20, 127);
-            pros::lcd::set_text(0, "State 0 of target_position: " + std::to_string(target_position));
+                target_position = -19;  
                 arm_state = 1;
             }
             //Load Position
             else if (arm_state == 1){
                 target_position = 0;
-                pros::lcd::set_text(1, "State 1 of target_position: " + std::to_string(target_position));
-                // WallStakeMotors.move_absolute(40, 127);
                 arm_state = 2;
             }
             //Prime Position
             else if (arm_state == 2){
-            pros::lcd::set_text(2, "State 2 of target_position:" + std::to_string(target_position));
-
                 target_position = 80;
                 arm_state = 3;
             }
             //Score position
             else if (arm_state == 3){
                 target_position = 120;
-            pros::lcd::set_text(3, "State 3 of target_position:" + std::to_string(target_position));
                 arm_state = 0;
             }
     
         }
+//ff
+        printf("my float: %f\n", target_position);
+
+        pros::delay(10);
     }
 }
 

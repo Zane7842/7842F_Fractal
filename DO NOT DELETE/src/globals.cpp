@@ -1,6 +1,7 @@
 #include "function.hpp"
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "pros/abstract_motor.hpp"
 #include "pros/imu.hpp"
 #include "pros/rotation.hpp"
 #include "globals.hpp"
@@ -93,7 +94,7 @@ pros::Optical Ring_Optical (8);
 bool Color_Switch = false;
 
 //Wall Stake 
-pros::MotorGroup WallStakeMotors ({-20, 19});
+pros::MotorGroup WallStakeMotors ({-20, 19}, pros::v5::MotorGears::green);
 bool WallStake = false;
 
 // LadyBrown Pid controller
