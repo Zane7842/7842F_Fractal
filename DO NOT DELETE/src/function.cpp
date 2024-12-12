@@ -100,9 +100,9 @@ void LadyBrown(){
             // If we are using the PID controller (not manually controlling the arm),
             // then we use the output of the PID controller as our input voltage to
             // the motor.
-        // output = LadyBrown_pid.update(WallStakeMotors.get_position_all()[0] - target_position);
-        WallStakeMotors.move_absolute(target_position * 5, 127);
-    // WallStakeMotors.move(output);
+        output = LadyBrown_pid.update(target_position*6 - WallStakeMotors.get_position_all()[0]);
+        // WallStakeMotors.move_absolute(target_position * 5, 127);
+        WallStakeMotors.move(output);
         }
 
 
@@ -135,7 +135,7 @@ void LadyBrown(){
     
         }
 //ff
-        printf("my float: %f\n", target_position);
+        printf("my float: %f\n", output);
 
         pros::delay(10);
     }

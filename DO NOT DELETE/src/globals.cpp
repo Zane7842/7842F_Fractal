@@ -98,7 +98,7 @@ pros::MotorGroup WallStakeMotors ({-20, 19}, pros::v5::MotorGears::green);
 bool WallStake = false;
 
 // LadyBrown Pid controller
-PID LadyBrown_pid (5, 0, 20);
+PID LadyBrown_pid (0.45, 0, 0.001);
 
 // Clamp
 pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
