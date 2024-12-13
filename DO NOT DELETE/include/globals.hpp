@@ -53,7 +53,7 @@ extern lemlib::Chassis chassis;
 //-----------------------------------------------------------
 
 // Intake
-extern pros::Motor IntakeMotors;
+extern pros::Motor IntakeMotor;
 extern pros::Optical Ring_Optical;
 extern int Ring_Hue;
 
@@ -62,9 +62,9 @@ extern pros::adi::Pneumatics Clamp_Piston;
 extern pros::Optical AutoClamp_Optical;
 extern bool ClampDown;
 
-//WallStake
+//WallStake 
 extern pros::MotorGroup WallStakeMotors;
-extern bool WallStake;
+extern float target_position;
 extern lemlib::PID LadyBrown_pid;
 
 // Hang

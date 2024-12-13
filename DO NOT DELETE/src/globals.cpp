@@ -21,16 +21,16 @@ pros::MotorGroup leftMotors({-11, -12, -13}); // left motors on ports 1, 2, 3
 pros::MotorGroup rightMotors({1, 2, 3}); // right motors on ports 4, 5, 6
 
 // Inertial Sensor on port 10
-pros::Imu imu(15);
+pros::Imu imu(10);
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
-pros::Rotation horizontalEnc(-8);
+pros::Rotation horizontalEnc(-14);
 // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
 pros::Rotation verticalEnc(9);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1.625);//Tracking Center at middle of drive (for at intake: 6.9)
+lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1.5);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -1.75);
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, 2);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -89,20 +89,19 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 // Intake
-pros::Motor IntakeMotors (15);
+pros::Motor IntakeMotor (15);
 pros::Optical Ring_Optical (8);
 bool Color_Switch = false;
 
-//Wall Stake 
+// Wall Stake 
 pros::MotorGroup WallStakeMotors ({-20, 19}, pros::v5::MotorGears::green);
-bool WallStake = false;
-
+float target_position;
 // LadyBrown Pid controller
 PID LadyBrown_pid (0.45, 0, 0.001);
 
 // Clamp
-pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
-pros::Optical AutoClamp_Optical (20);
+pros::adi::Pneumatics Clamp_Piston('b', true);   // Starts extended, retracts when the ADI port is high
+pros::Optical AutoClamp_Optical (6);
 bool ClampDown = false; // by default, the clamp will be up.
 
 // Hang

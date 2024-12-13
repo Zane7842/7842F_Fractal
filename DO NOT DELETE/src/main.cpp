@@ -102,7 +102,7 @@ SAWP_NegativeFull_Blue_BarcBot();
  */
 void opcontrol() {
 
-    printf("my float: %f\n", ClampDown);
+// Tune_LateralPID();
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
