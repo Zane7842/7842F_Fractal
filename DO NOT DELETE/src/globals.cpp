@@ -42,9 +42,9 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(15, // proportional gain (kP)
+lemlib::ControllerSettings linearController(10, // proportional gain (kP) 9
                                             0, // integral gain (kI)
-                                            110, // derivative gain (kD)
+                                            10, // derivative gain (kD) 10
                                             0, // anti windup
                                             0, // small error range, in inches
                                             0, // small error range timeout, in milliseconds
@@ -54,9 +54,9 @@ lemlib::ControllerSettings linearController(15, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(4, // proportional gain (kP)
+lemlib::ControllerSettings angularController(4, // proportional gain (kP) 4
                                              0, // integral gain (kI)
-                                             30, // derivative gain (kD)
+                                             30, // derivative gain (kD) 30
                                              0, // anti windu
                                              0, // small error range, in degrees
                                              0, // small error range timeout, in milliseconds

@@ -157,10 +157,12 @@ void SAWP_Negative_Red_AllianceStake(){
 }
 
 void Skills(){
-    pros::Task Clamp(Auto_Clamp);
-    //Score Alliance Stake
     chassis.setPose(-55, 0, 270);
-    chassis.waitUntilDone();
+    pros::Task Clamp(Auto_Clamp);
+    pros::Task ladyBrown(LadyBrown);
+    //Score Alliance Stake
+    
+    // chassis.waitUntilDone();
     target_position = 120; //Score wall Stake
     pros::delay(500);
     target_position = -19; //Default wall Stake
