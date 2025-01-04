@@ -83,7 +83,7 @@ ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
  */
 void autonomous() {
 
-SAWP_NegativeFull_Blue_BarcBot();
+WACK();
 
 }
 
@@ -102,7 +102,15 @@ SAWP_NegativeFull_Blue_BarcBot();
  */
 void opcontrol() {
 
-Tune_LateralPID();
+    // while(true){
+   
+    // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+    //     SAWP_Negative_Red_AllianceStake();
+    // }
+    // }
+    
+
+
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
@@ -111,6 +119,13 @@ Tune_LateralPID();
 
 //Main Loop
     while (true) {
+
+
+
+ //If button L1 is being pressed, spin the intake backwards at full speed
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        IntakeMotor.move_voltage(-12000);
+        }
         
 /*Drive Controls*/
         // get left y and right x positions
@@ -143,11 +158,6 @@ Tune_LateralPID();
 /*Wall Stake Controls*/
 
  
-
- 
-
-
-
                           
 //Overides-------------------------------------------------------------------------------
 

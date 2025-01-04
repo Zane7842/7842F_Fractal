@@ -12,7 +12,7 @@ using namespace Globals;
 bool sort_red = true;
 
 void Sort(){
-    pros::delay(9); //Delay to tune break point
+    pros::delay(4); //Delay to tune break point
     IntakeMotor.brake(); //Breaks intake motors
     pros::delay(1000); //Delay to control length of break period
 }
@@ -24,15 +24,12 @@ void Intake(){
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         IntakeMotor.move_voltage(12000);
         }
-        //If button L1 is being pressed, spin the intake backwards at full speed
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-        IntakeMotor.move_voltage(-12000);
-        }
-        else {
+       
+        else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))) {
         IntakeMotor.move_voltage(0);
         }
         //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
             sort_red = !sort_red;   
         }
         if  (!SortOver){
@@ -46,7 +43,7 @@ void Intake(){
             }
         }
 
-        printf("my bool: %f\n", sort_red);
+        // printf("my bool: %f\n", sort_red);
 
      pros::delay(10);
     }

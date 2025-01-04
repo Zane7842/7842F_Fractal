@@ -12,4 +12,6 @@ extern void SoloWin_Positive_Red();
 
 //Dec 14th
 extern void SAWP_Negative_Red_AllianceStake();
+extern void WACK();
 extern void Skills();
+extern void Skills_Simple();
