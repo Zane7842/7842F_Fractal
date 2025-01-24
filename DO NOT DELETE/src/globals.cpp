@@ -17,20 +17,20 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Controller controller_mechops(pros::E_CONTROLLER_MASTER);
 // motor groups                                                                                                                                                                                                                                                                                                               pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-pros::MotorGroup leftMotors({-11, -12, -13}); // left motors on ports 1, 2, 3
-pros::MotorGroup rightMotors({1, 2, 3}); // right motors on ports 4, 5, 6
+pros::MotorGroup leftMotors({-14, -15, -16}); // left motors on ports 14, 15, 16
+pros::MotorGroup rightMotors({11, 12, 13}); // right motors on ports 11, 12, 13
 
 // Inertial Sensor on port 10
-pros::Imu imu(10);
+pros::Imu imu(7);
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
-pros::Rotation horizontalEnc(-14);
+pros::Rotation horizontalEnc(-20);
 // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
-pros::Rotation verticalEnc(9);
+pros::Rotation verticalEnc(19);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1.5);//Tracking Center at middle of drive (for at intake: 6.9)
+lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, 2);
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.063);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -38,13 +38,13 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               13, // 13 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 450
-                              2 // horizontal drift is 2. If we had traction wheels, it would have been 8
+                              8 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
 lemlib::ControllerSettings linearController(12, // proportional gain (kP) 9
-                                            0, // integral gain (kI)
-                                            110, // derivative gain (kD) 10
+                                            1, // integral gain (kI)
+                                            80, // derivative gain (kD) 10
                                             3, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -54,9 +54,9 @@ lemlib::ControllerSettings linearController(12, // proportional gain (kP) 9
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(4, // proportional gain (kP) 4
+lemlib::ControllerSettings angularController(7, // proportional gain (kP) 4
                                              0, // integral gain (kI)
-                                             40, // derivative gain (kD) 30
+                                             80, // derivative gain (kD) 30
                                              0, // anti windu
                                              0, // small error range, in degrees
                                              0, // small error range timeout, in milliseconds
@@ -74,41 +74,41 @@ lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
 );
 
 // input curve for throttle input during driver control
-lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
+lemlib::ExpoDriveCurve throttleCurve(2.4, // joystick deadband out of 127
                                      10, // minimum output where drivetrain will move out of 127
-                                     1.019 // expo curve gain
+                                     1 // expo curve gain
 );
 
 // input curve for steer input during driver control
-lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
-                                  10, // minimum output where drivetrain will move out of 127
-                                  1.1 // expo curve gain
+lemlib::ExpoDriveCurve steerCurve(2.1, // joystick deadband out of 127
+                                  13, // minimum output where drivetrain will move out of 127
+                                  1.014 // expo curve gain
 );
 
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 // Intake
-pros::Motor IntakeMotor (15);
-pros::Optical Ring_Optical (8);
+pros::Motor IntakeMotor (-18);
+pros::Optical Ring_Optical (10);
 bool Color_Switch = false;
 
 // Wall Stake 
-pros::MotorGroup WallStakeMotors ({-20, 19}, pros::v5::MotorGears::green);
+pros::MotorGroup WallStakeMotors ({8, -9}, pros::v5::MotorGears::green);
+pros::Rotation WallStakeRotation (21);
 float target_position;
 // LadyBrown Pid controller
 PID LadyBrown_pid (0.45, 0, 0.001);
 
 // Clamp
-pros::adi::Pneumatics Clamp_Piston('b', true);   // Starts extended, retracts when the ADI port is high
-pros::Optical AutoClamp_Optical (6);
+pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
+pros::Optical AutoClamp_Optical (17);
 bool ClampDown = false; // by default, the clamp will be up.
 
 // Hang
-pros::adi::Pneumatics PTO_LeftPiston('c', false);   // Starts retracted, extends when the ADI port is high
-pros::adi::Pneumatics PTO_RightPiston('d', false);   // Starts retracted, extends when the ADI port is high
-pros::Rotation HangConveyor_Rotation(21);
-bool hang_locked = false;
+pros::adi::Pneumatics PTO_Piston('c', false);   // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics Ratchet_Piston('d', false);   // Starts retracted, extends when the ADI port is high
+bool hang_locked = true;
 bool PTO_Engage = false; // by default, the PTO will be unengaged with the drive (locked)
 
 // Doinker

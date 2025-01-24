@@ -77,7 +77,7 @@ void Auto_Clamp(){
 
 bool use_macro = true;
 float output;
-int arm_state = 2;
+int arm_state = 1;
 
 void LadyBrown(){
     while (true) {
@@ -97,7 +97,7 @@ void LadyBrown(){
             // If we are using the PID controller (not manually controlling the arm),
             // then we use the output of the PID controller as our input voltage to
             // the motor.
-        output = LadyBrown_pid.update(target_position*6 - WallStakeMotors.get_position_all()[0]);
+          output = LadyBrown_pid.update(target_position*3 - WallStakeMotors.get_position_all()[0]);
         // WallStakeMotors.move_absolute(target_position * 5, 127);
         WallStakeMotors.move(output);
         }
@@ -119,12 +119,11 @@ void LadyBrown(){
                 target_position = 0;
                 arm_state = 2;
             }
-            //Prime Position
             else if (arm_state == 2){
-                target_position = 80;
+                target_position = 110;
                 arm_state = 3;
             }
-            //Score position
+            //Prime Position
             else if (arm_state == 3){
                 target_position = 145;
                 arm_state = 0;
@@ -135,4 +134,6 @@ void LadyBrown(){
         pros::delay(10);
     }
 }
+
+
 

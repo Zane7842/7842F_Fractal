@@ -15,3 +15,7 @@ extern void SAWP_Negative_Red_AllianceStake();
 extern void WACK();
 extern void Skills();
 extern void Skills_Simple();
+
+extern void Simple_AWP();
+extern void Simple_Auton();
+

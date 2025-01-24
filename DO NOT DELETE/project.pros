@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "ELIM",
+    "project_name": "Al",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,8 +255,9 @@
       }
     },
     "upload_options": {
-      "description": "ELim",
-      "slot": 3
+      "description": "Alt",
+      "slot": 4,
+      "icon": "clawbot"
     },
     "use_early_access": false
   }

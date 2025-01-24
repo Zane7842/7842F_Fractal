@@ -85,6 +85,7 @@ void autonomous() {
 
 WACK();
 
+
 }
 
 /**
@@ -102,15 +103,12 @@ WACK();
  */
 void opcontrol() {
 
-    // while(true){
+    while(true){
    
-    // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-    //     SAWP_Negative_Red_AllianceStake();
-    // }
-    // }
-    
-
-
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+    Tune_AngularPID();
+    }
+    }
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
@@ -119,8 +117,6 @@ void opcontrol() {
 
 //Main Loop
     while (true) {
-
-
 
  //If button L1 is being pressed, spin the intake backwards at full speed
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -155,13 +151,22 @@ void opcontrol() {
             
         Doinker_Piston.set_value(DoinkerDown);
 
-/*Wall Stake Controls*/
+/*Hang Controls*/
 
- 
+if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            // If this is true, DoinkerDown will changed to false
+            // and vice versa. 
+            PTO_Piston.set_value(true); 
+        }
+if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            // If this is true, DoinkerDown will changed to false
+            // and vice versa. 
+            PTO_Piston.set_value(true); 
+        }
                           
 //Overides-------------------------------------------------------------------------------
 
-    //Auto Clamp 
+    // Auto Clamp 
         if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
             ClampOver = !ClampOver;
             }

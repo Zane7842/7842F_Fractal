@@ -64,12 +64,13 @@ extern bool ClampDown;
 
 //WallStake 
 extern pros::MotorGroup WallStakeMotors;
+extern pros::Rotation WallStakeRotation;
 extern float target_position;
 extern lemlib::PID LadyBrown_pid;
 
 // Hang
-extern pros::adi::Pneumatics PTO_LeftPiston;
-extern pros::adi::Pneumatics PTO_RightPiston;
+extern pros::adi::Pneumatics PTO_Piston;
+extern pros::adi::Pneumatics Ratchet_Piston;
 extern bool PTO_Engage;
 
 // Doinker
