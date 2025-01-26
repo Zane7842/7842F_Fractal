@@ -13,7 +13,7 @@ bool sort_red = false;
 bool is_red = true;
 int Initial_delay;
 
-void Sort(){
+void Match_Sort(){
     // if(IntakeMotor.get_actual_velocity()>140){
     // Initial_delay = 7;
     // }
@@ -21,12 +21,22 @@ void Sort(){
     // Initial_delay = 10;
     // }
     // Initial_delay = 980/IntakeMotor.get_actual_velocity()/(2)-7;
-    pros::delay(73); //Delay to tune break point
+    pros::delay(65); //Delay to tune break point
     IntakeMotor.move_voltage(-12000);
-    pros::delay(700); //Delay to control length of break period
+    pros::delay(100); //Delay to control length of break period
+    target_position = -19;
     IntakeMotor.move_voltage(12000);
 }
 
+void Auton_Sort(){
+    target_position = 30;
+    pros::delay(75); //Delay to tune break point
+    IntakeMotor.move_voltage(-12000);
+    // target_position = -19;
+    pros::delay(70); //Delay to control length of break period
+     target_position = -19;
+    IntakeMotor.move_voltage(12000);
+}
 void Intake(){
     while (true)
     {
@@ -54,13 +64,17 @@ void Intake(){
                 is_red = false;
             }
             //Sort Blue
+            if ((Ring_Distance.get() < 15)){
+            target_position = 30;  
+            } 
             if ((Ring_Distance.get() < 6)){
-               Sort();  
+              Match_Sort();  
             }
+            
 
         printf("my int: %d\n", Initial_delay);
 
-     pros::delay(10);
+     pros::delay(11);
     }
 }
 

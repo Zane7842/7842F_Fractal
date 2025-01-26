@@ -2,7 +2,9 @@
 #include "main.h"
 #include "globals.hpp"
 
-void Sort();
+void Match_Sort();
+
+void Auton_Sort();
 
 void Intake ();
 
