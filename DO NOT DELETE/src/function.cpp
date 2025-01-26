@@ -9,12 +9,22 @@
 using namespace Globals;
 
 //Boolean vairble for sleecting what color to sort
-bool sort_red = true;
+bool sort_red = false;
+bool is_red = true;
+int Initial_delay;
 
 void Sort(){
-    pros::delay(4); //Delay to tune break point
-    IntakeMotor.brake(); //Breaks intake motors
-    pros::delay(1000); //Delay to control length of break period
+    // if(IntakeMotor.get_actual_velocity()>140){
+    // Initial_delay = 7;
+    // }
+    // else if(IntakeMotor.get_actual_velocity()<140){
+    // Initial_delay = 10;
+    // }
+    // Initial_delay = 980/IntakeMotor.get_actual_velocity()/(2)-7;
+    pros::delay(73); //Delay to tune break point
+    IntakeMotor.move_voltage(-12000);
+    pros::delay(700); //Delay to control length of break period
+    IntakeMotor.move_voltage(12000);
 }
 
 void Intake(){
@@ -32,18 +42,23 @@ void Intake(){
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
             sort_red = !sort_red;   
         }
-        if  (!SortOver){
-            //If sort_red is true: Sort Red Rings
-            if (sort_red & (Ring_Optical.get_hue() < 11) & (Ring_Optical.get_proximity() > 250)){
+    
+            // //Sort Red
+            // if ((Ring_Optical.get_hue() < 11) & (Ring_Optical.get_proximity() > 250)){
+            //    Sort();  
+            // }
+            if ((Ring_Optical.get_hue()<11)){
+                is_red = true;
+            }
+            if ((Ring_Optical.get_hue() < 250) & (Ring_Optical.get_hue() > 205)){
+                is_red = false;
+            }
+            //Sort Blue
+            if ((Ring_Distance.get() < 6)){
                Sort();  
             }
-            //If sort_red is false: Sort Blue Rings
-            else if ((!sort_red) & (Ring_Optical.get_hue() > 200) & (Ring_Optical.get_proximity() > 250)){
-                Sort();
-            }
-        }
 
-        // printf("my bool: %f\n", sort_red);
+        printf("my int: %d\n", Initial_delay);
 
      pros::delay(10);
     }
@@ -129,9 +144,9 @@ void LadyBrown(){
                 arm_state = 0;
             }
         }
-        //Debug Print
-        printf("my float: %f\n", output);
-        pros::delay(10);
+        // //Debug Print
+        // printf("my float: %f\n", output);
+        // pros::delay(10);
     }
 }
 

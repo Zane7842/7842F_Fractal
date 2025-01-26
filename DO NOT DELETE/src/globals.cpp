@@ -42,27 +42,27 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(12, // proportional gain (kP) 9
-                                            1, // integral gain (kI)
-                                            80, // derivative gain (kD) 10
-                                            3, // anti windup
-                                            1, // small error range, in inches
-                                            100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
-                                            500, // large error range timeout, in milliseconds
-                                            0 // maximum acceleration (slew)
+lemlib::ControllerSettings linear_controller(19.2, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              140, // derivative gain (kD)
+                                               0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 //m acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(7, // proportional gain (kP) 4
-                                             0, // integral gain (kI)
-                                             80, // derivative gain (kD) 30
-                                             0, // anti windu
-                                             0, // small error range, in degrees
-                                             0, // small error range timeout, in milliseconds
-                                             0, // large error range, in degrees
-                                             0, // large error range timeout, in milliseconds
-                                             0 // maximum acceleration (slew)
+lemlib::ControllerSettings angular_controller(4.3, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              54, // derivative gain (kD)
+                                              0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)v
 );
 
 // sensors for odometry
@@ -86,16 +86,17 @@ lemlib::ExpoDriveCurve steerCurve(2.1, // joystick deadband out of 127
 );
 
 // create the chassis
-lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
+lemlib::Chassis chassis(drivetrain, linear_controller, angular_controller, sensors, &throttleCurve, &steerCurve);
 
 // Intake
 pros::Motor IntakeMotor (-18);
-pros::Optical Ring_Optical (10);
+pros::Optical Ring_Optical (2);
+pros::Distance Ring_Distance (21);
 bool Color_Switch = false;
 
 // Wall Stake 
 pros::MotorGroup WallStakeMotors ({8, -9}, pros::v5::MotorGears::green);
-pros::Rotation WallStakeRotation (21);
+pros::Rotation WallStakeRotation (1);
 float target_position;
 // LadyBrown Pid controller
 PID LadyBrown_pid (0.45, 0, 0.001);
@@ -112,10 +113,15 @@ bool hang_locked = true;
 bool PTO_Engage = false; // by default, the PTO will be unengaged with the drive (locked)
 
 // Doinker
-pros::adi::Pneumatics Doinker_Piston('a', false);   // Starts retracted, extends when the ADI port is high
-bool DoinkerDown = false;
+pros::adi::Pneumatics RightDoinker_Piston('a', false);   // Starts retracted, extends when the ADI port is high
+bool RightDoinker_Down = false;
+pros::adi::Pneumatics LeftDoinker_Piston('b', false);   // Starts retracted, extends when the ADI port is high
+bool LeftDoinker_Down = false;
 
 //Override
 bool ClampOver = false;
 bool SortOver = false;
+
+//Aditional Vairbles
+bool Blue_Alliance = false;
 }

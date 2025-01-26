@@ -41,6 +41,7 @@ void initialize() {
     AutoClamp_Optical.set_led_pwm(100);
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
+
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::brake);
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     // WallStakeMotors.set_zero_position(110);
@@ -67,9 +68,9 @@ void disabled() {}
 void competition_initialize() {}
 // get a path used for pure pursuit
 // this needs to be put outside a function
-ASSET(example_txt); // '.' replaced with "_" to make c++ happy
-ASSET(SoloWin1_txt); // '.' replaced with "_" to make c++ happy
-ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
+// ASSET(example_txt); // '.' replaced with "_" to make c++ happy
+// ASSET(SoloWin1_txt); // '.' replaced with "_" to make c++ happy
+// ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -82,8 +83,6 @@ ASSET(SAWPNegative_txt); // '.' replaced with "_" to make c++ happy
  * from where it left off.
  */
 void autonomous() {
-
-WACK();
 
 
 }
@@ -103,17 +102,20 @@ WACK();
  */
 void opcontrol() {
 
-    while(true){
+// Tune_LateralPID();
+
+//     while(true){
    
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-    Tune_AngularPID();
-    }
-    }
+//     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+//     Tune_LateralPID();
+//     }
+//     }
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
     pros::Task ladyBrown(LadyBrown);
+
 
 //Main Loop
     while (true) {
@@ -146,10 +148,18 @@ void opcontrol() {
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
             // If this is true, DoinkerDown will changed to false
             // and vice versa. 
-            DoinkerDown = !DoinkerDown; 
+            RightDoinker_Down = !RightDoinker_Down; 
         }
             
-        Doinker_Piston.set_value(DoinkerDown);
+        RightDoinker_Piston.set_value(RightDoinker_Down);
+
+ if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            // If this is true, DoinkerDown will changed to false
+            // and vice versa. 
+            LeftDoinker_Down = !LeftDoinker_Down; 
+        }
+            
+        LeftDoinker_Piston.set_value(LeftDoinker_Down);
 
 /*Hang Controls*/
 

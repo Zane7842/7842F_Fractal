@@ -33,10 +33,10 @@ extern lemlib::TrackingWheel vertical;
 extern lemlib::Drivetrain drivetrain;
 
 // lateral motion controller
-extern lemlib::ControllerSettings linearController;
+extern lemlib::ControllerSettings linear_controller;
 
 // angular motion controller
-extern lemlib::ControllerSettings angularController;
+extern lemlib::ControllerSettings angular_controller;
 
 // sensors for odometry
 extern lemlib::OdomSensors sensors;
@@ -55,6 +55,7 @@ extern lemlib::Chassis chassis;
 // Intake
 extern pros::Motor IntakeMotor;
 extern pros::Optical Ring_Optical;
+extern pros::Distance Ring_Distance;
 extern int Ring_Hue;
 
 // Clamp
@@ -74,10 +75,15 @@ extern pros::adi::Pneumatics Ratchet_Piston;
 extern bool PTO_Engage;
 
 // Doinker
-extern pros::adi::Pneumatics Doinker_Piston;
-extern bool DoinkerDown;
+extern pros::adi::Pneumatics RightDoinker_Piston;
+extern bool RightDoinker_Down;
+extern pros::adi::Pneumatics LeftDoinker_Piston;
+extern bool LeftDoinker_Down;
 
 // overides
 extern bool ClampOver;
 extern bool SortOver;
+
+//Addition varibles
+extern bool Blue_Alliance;
 }
