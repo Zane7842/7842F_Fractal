@@ -11,7 +11,6 @@ using namespace Globals;
 //Boolean vairble for sleecting what color to sort
 bool sort_red = false;
 bool is_red = true;
-int Initial_delay;
 
 void Match_Sort(){
     // if(IntakeMotor.get_actual_velocity()>140){
@@ -28,23 +27,13 @@ void Match_Sort(){
     IntakeMotor.move_voltage(12000);
 }
 
-void Auton_Sort(){
-    target_position = 30;
-    pros::delay(75); //Delay to tune break point
-    IntakeMotor.move_voltage(-12000);
-    // target_position = -19;
-    pros::delay(70); //Delay to control length of break period
-     target_position = -19;
-    IntakeMotor.move_voltage(12000);
-}
 void Intake(){
-    while (true)
-    {
+    while (true){
+        is_red = true;
         //If button R1 is being pressed, spin teh intake forwards at full speed
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         IntakeMotor.move_voltage(12000);
         }
-       
         else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))) {
         IntakeMotor.move_voltage(0);
         }
@@ -52,29 +41,26 @@ void Intake(){
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
             sort_red = !sort_red;   
         }
-    
-            // //Sort Red
-            // if ((Ring_Optical.get_hue() < 11) & (Ring_Optical.get_proximity() > 250)){
-            //    Sort();  
-            // }
-            if ((Ring_Optical.get_hue()<11)){
+
+            if ((Ring_Optical.get_hue()<13)){
                 is_red = true;
             }
-            if ((Ring_Optical.get_hue() < 250) & (Ring_Optical.get_hue() > 205)){
+            if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
                 is_red = false;
             }
-            //Sort Blue
-            if ((Ring_Distance.get() < 15)){
-            target_position = 30;  
-            } 
-            if ((Ring_Distance.get() < 6)){
-              Match_Sort();  
+            if(is_red == false){
+                //Sort Blue
+                if ((Ring_Distance.get() < 25)){
+                target_position = 40;  
+                } 
+                if ((Ring_Distance.get() < 10)){
+                Match_Sort();  
+                }   
             }
-            
 
-        printf("my int: %d\n", Initial_delay);
+    // printf("my int: %d\n", Initial_delay);
 
-     pros::delay(11);
+    pros::delay(11);
     }
 }
 
