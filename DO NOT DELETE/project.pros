@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Al",
+    "project_name": "Code",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,8 +255,8 @@
       }
     },
     "upload_options": {
-      "description": "Alt",
-      "slot": 4,
+      "description": "Code",
+      "slot": 1,
       "icon": "clawbot"
     },
     "use_early_access": false

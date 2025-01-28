@@ -28,7 +28,7 @@ pros::Rotation horizontalEnc(-20);
 // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
 pros::Rotation verticalEnc(19);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -1);//Tracking Center at middle of drive (for at intake: 6.9)
+lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -0.875);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
 lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.063);
 
@@ -42,21 +42,21 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linear_controller(19.2, // proportional gain (kP)
+lemlib::ControllerSettings linear_controller(32, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              140, // derivative gain (kD)
-                                               0, // anti windup
-                                              0, // small error range, in inches
-                                              0, // small error range timeout, in milliseconds
-                                              0, // large error range, in inches
-                                              0, // large error range timeout, in milliseconds
-                                              0 //m acceleration (slew)
+                                              212 , // derivative gain (kD)
+                                             3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              20 // maximum acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angular_controller(4.3, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              54, // derivative gain (kD)
+lemlib::ControllerSettings angular_controller(4.59, // proportional gain (kP)
+                                              0.0009, // integral gain (kI)
+                                              52.88, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in inches
                                               0, // small error range timeout, in milliseconds
@@ -102,9 +102,10 @@ float target_position;
 PID LadyBrown_pid (0.45, 0, 0.001);
 
 // Clamp
-pros::adi::Pneumatics Clamp_Piston('h', true);   // Starts extended, retracts when the ADI port is high
+pros::adi::Pneumatics Clamp_Piston('h', false);   // Starts extended, retracts when the ADI port is high
 pros::Optical AutoClamp_Optical (17);
 bool ClampDown = false; // by default, the clamp will be up.
+bool ClampUp = true;
 
 // Hang
 pros::adi::Pneumatics PTO_Piston('c', false);   // Starts retracted, extends when the ADI port is high
@@ -125,3 +126,4 @@ bool SortOver = false;
 //Aditional Vairbles
 bool Blue_Alliance = false;
 }
+

@@ -102,14 +102,13 @@ void autonomous() {
  */
 void opcontrol() {
 
-// Tune_LateralPID();
+pros::Task Print(print_odom);
 
-//     while(true){
-   
-//     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-//     Tune_LateralPID();
-//     }
-//     }
+    while(true){
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+        SAWP();
+    }
+    }
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);

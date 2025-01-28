@@ -62,6 +62,7 @@ extern int Ring_Hue;
 extern pros::adi::Pneumatics Clamp_Piston;
 extern pros::Optical AutoClamp_Optical;
 extern bool ClampDown;
+extern bool ClampUp;
 
 //WallStake 
 extern pros::MotorGroup WallStakeMotors;

@@ -64,14 +64,39 @@ void Intake(){
     }
 }
 
+void Auton_Intake(){
+    is_red = true;
+    while (true){
+        if ((Ring_Optical.get_hue()<13)){
+                is_red = true;
+        }
+        if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
+            is_red = false;
+        }
+        if(is_red == false){
+            //Sort Blue
+            if ((Ring_Distance.get() < 25)){
+            target_position = 40;  
+            } 
+            if ((Ring_Distance.get() < 10)){
+            Match_Sort();  
+            }   
+        }
+    }
+
+    // printf("my int: %d\n", Initial_delay);
+
+    pros::delay(11);
+}
+
 void Clamp(){
   
     while (true){
         // If Mogo color is detected
-        if ( (AutoClamp_Optical.get_proximity() > 250) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )& !ClampOver){ 
+        if ( (AutoClamp_Optical.get_proximity() > 250) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )){ 
         //(AutoClamp_Optical.get_hue() >= 70)
         ClampDown = true; 
-        Clamp_Piston.set_value(true);
+        Clamp_Piston.set_value(ClampDown);
         pros::delay(500);
         }
     }
@@ -80,14 +105,15 @@ void Clamp(){
 void Auto_Clamp(){
   
     while (true){
-        // If Mogo color is detected
-        if (AutoClamp_Optical.get_hue() >= 70){
-        //
-        //  ClampDown = true; 
-        Clamp_Piston.set_value(true);
+         // If Mogo color is detected
+        if ( (AutoClamp_Optical.get_proximity() > 250) & ((ClampUp == false) )){ 
+        //(AutoClamp_Optical.get_hue() >= 70)
+        ClampDown = true; 
+        Clamp_Piston.set_value(ClampDown);
         pros::delay(500);
         }
     }
+
 }
 
 bool use_macro = true;
@@ -147,6 +173,14 @@ void LadyBrown(){
         // //Debug Print
         // printf("my float: %f\n", output);
         // pros::delay(10);
+    }
+}
+
+void print_odom(){
+    while (true){
+
+        printf("X: %.2f, Y: %.2f, Theta: %.2f\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
+        pros::delay(10);
     }
 }
 

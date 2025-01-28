@@ -8,8 +8,12 @@ void Auton_Sort();
 
 void Intake ();
 
+void Auton_Intake();
+
 void Auto_Clamp ();
 
 void Clamp ();
 
 void LadyBrown();
+
+void print_odom();
