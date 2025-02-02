@@ -89,6 +89,17 @@ void Auton_Intake(){
     pros::delay(11);
 }
 
+void Auton_StopIntake(){
+    while (true){
+        IntakeMotor.move_voltage(10000);
+        if (((Ring_Optical.get_hue()<13)& (Ring_Optical.get_proximity()<255))){ //& (Ring_Optical.get_proximity()>5)
+               IntakeMotor.brake();
+               pros::delay(3000);
+               return;
+        } 
+    }
+}
+
 void Clamp(){
   
     while (true){

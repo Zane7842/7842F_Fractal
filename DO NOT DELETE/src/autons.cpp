@@ -8,7 +8,7 @@ using namespace Globals;
 
 void Tune_LateralPID(){
     chassis.setPose(0, 0, 0);
-    chassis.moveToPose(0, 48, 0, 10000);
+    chassis.moveToPose(0, 23, 0, 10000);
     // chassis.turnToHeading(180, 100000);
     // chassis.moveToPose(0, 0, 0, 10000);
     // chassis.turnToHeading(0, 100000);
@@ -22,7 +22,7 @@ void Tune_AngularPID(){
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(180, 100000);
+    chassis.turnToHeading(118, 100000);
 }
 
 void Skills(){
@@ -150,6 +150,8 @@ void SAWP(){
     chassis.moveToPoint(-37.7, -34.7, 2000);
     //Intake/sort middle ring
     chassis.turnToPoint(-6, -14, 1000);
+    chassis.waitUntilDone();
+    pros::Task RingSort(Auton_StopIntake);
     chassis.moveToPoint(-5, -14, 4000);
     chassis.turnToPoint(-6, 7, 1000);
     // chassis.waitUntilDone();
@@ -161,6 +163,74 @@ void SAWP(){
     }
 
 
+void SimpleSAWP(){
+    ClampUp = true; //Ensures Clamp is up
+    pros::Task Clamp(Auto_Clamp);
+    pros::Task ladyBrown(LadyBrown);
 
+    //62 degrees with 1 ring constants
+    angular_controller.kP = 4.53;
+    angular_controller.kI = 0.0029;
+    angular_controller.kD = 43;
+    //8.5" and 23" lateral (no goal)
+    linear_controller.kP = 31;
+    linear_controller.kI = 0.0000;
+    linear_controller.kD = 213;
+
+        chassis.setPose(-14.5, -15.25, 0);
+
+        //Score Alliance Stake
+        chassis.moveToPose(-14.5, -8.25, 0, 1000);
+        chassis.turnToPoint(0, 0, 1000);
+        chassis.waitUntilDone();
+        target_position = 155;
+    pros::delay(600);
+
+        //Grab first mogo
+    ClampUp = false;
+        chassis.moveToPose(-35, -17.3, 62.2, 2000, {.forwards = false}); // 
+        chassis.waitUntil(5);
+    target_position = -19;
+        chassis.moveToPose(-48, -24, 62.2, 5000, {.forwards = false,.maxSpeed = 50}); 
+        chassis.waitUntilDone();
+
+    //115 degree with an empty mobile goal constant
+    angular_controller.kP = 4.52;
+    angular_controller.kI = 0.0000;
+    angular_controller.kD = 47;
+
+        //Intake first ring
+    IntakeMotor.move_voltage(12000);
+        chassis.turnToPoint(-47.1, -47.1, 1000);
+        chassis.moveToPose(-45.25, -41.5, 180, 2000);
+
+        //Sort+Store second ring 
+        chassis.turnToPoint(-24.8, 3.7, 1000);
+        chassis.waitUntilDone();
+    pros::Task RingSort(Auton_StopIntake); 
+        chassis.moveToPose(-18.38, 23.61, 21, 4000, {.maxSpeed = 50}); 
+
+        //Grab second goal and score second ring
+        chassis.turnToPoint(-47.23, 23.61, 1000,{.forwards = false});
+        chassis.moveToPose(-47.23, 23.61, 90, 2000,{.forwards = false, .maxSpeed = 50});
+         chassis.waitUntilDone();
+        IntakeMotor.move_voltage(12000);
+        //Intake last ring
+        chassis.turnToPoint(-47.3, 47, 1000);
+        chassis.moveToPose(-47.3, 47, 0, 2000);
+
+        //Touch Ladder
+    //     chassis.turnToPoint(-48.26, 21.56, 1000);
+    //     chassis.moveToPose(-48.26, 21.56, 242, 2000);
+    //     chassis.waitUntil(5);
+    // target_position = 105;
+    
+    //115 degree with an empty mobile goal constant
+    // angular_controller.kP = 4.52;
+    // angular_controller.kI = 0.0000;
+    // angular_controller.kD = 47;
+}
+// 14.68, 22.79 (away from 0, 0)
+//-14.91, -23.07
 
 

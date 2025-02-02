@@ -1,4 +1,5 @@
 #include "function.hpp"
+#include "lemlib/chassis/trackingWheel.hpp"
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "pros/abstract_motor.hpp"
@@ -15,22 +16,22 @@ namespace Globals {
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Controller controller_mechops(pros::E_CONTROLLER_MASTER);
-// motor groups                                                                                                                                                                                                                                                                                                               pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+// motor groups                                                                                                                                                                                                                                                                                            pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-pros::MotorGroup leftMotors({-14, -15, -16}); // left motors on ports 14, 15, 16
-pros::MotorGroup rightMotors({11, 12, 13}); // right motors on ports 11, 12, 13
+pros::MotorGroup leftMotors({-14, -15, -16}, pros::MotorGearset::blue); // left motors on ports 14, 15, 16
+pros::MotorGroup rightMotors({3, 12, 13}, pros::MotorGearset::blue); // right motors on ports 11, 12, 13
 
 // Inertial Sensor on port 10
 pros::Imu imu(7);
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
-pros::Rotation horizontalEnc(-20);
+pros::Rotation horizontalEnc(20);
 // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
 pros::Rotation verticalEnc(19);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -0.875);//Tracking Center at middle of drive (for at intake: 6.9)
+lemlib::TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_275, 0.9);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.063);
+lemlib::TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_275, 2.063);//2.8395, 2.8
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -42,21 +43,21 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linear_controller(32, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              212 , // derivative gain (kD)
-                                             3, // anti windup
-                                              1, // small error range, in inches
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
+lemlib::ControllerSettings linear_controller(31, // proportional gain (kP) (32) (31 for 8.5" no goal)
+                                              0, // integral gain (kI) (0)
+                                              213 , // derivative gain (kD) (212) (215 for 8.5" no goal)
+                                               0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angular_controller(4.59, // proportional gain (kP)
-                                              0.0009, // integral gain (kI)
-                                              52.88, // derivative gain (kD)
+lemlib::ControllerSettings angular_controller(4.52, // proportional gain (kP) (4.59 for 180)(4.53 for 62(no goal))
+                                              0.0000, // integral gain (kI) (0.0009 for 180) (0.0029 for 62 (no goal))
+                                              47, // derivative gain (kD)(52.88 for 180)(43 for 62 (no goal))
                                               0, // anti windup
                                               0, // small error range, in inches
                                               0, // small error range timeout, in milliseconds
@@ -65,7 +66,7 @@ lemlib::ControllerSettings angular_controller(4.59, // proportional gain (kP)
                                               0 // maximum acceleration (slew)v
 );
 
-// sensors for odometry
+// sensors for odometryp
 lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             &horizontal, // horizontal tracking wheel
