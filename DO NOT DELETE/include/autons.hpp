@@ -9,5 +9,7 @@ extern void Skills();
 
 extern void SAWP();
 extern void SimpleSAWP();
+extern void Mogo_Rush();
+extern void Negative_Elim();
 
 

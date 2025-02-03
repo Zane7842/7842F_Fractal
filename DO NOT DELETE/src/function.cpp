@@ -67,13 +67,7 @@ void Intake(){
 void Auton_Intake(){
     is_red = true;
     while (true){
-        if ((Ring_Optical.get_hue()<13)){
-                is_red = true;
-        }
-        if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
-            is_red = false;
-        }
-        if(is_red == false){
+        if(get_opticalColor() == 2){
             //Sort Blue
             if ((Ring_Distance.get() < 25)){
             target_position = 40;  
@@ -91,13 +85,23 @@ void Auton_Intake(){
 
 void Auton_StopIntake(){
     while (true){
-        IntakeMotor.move_voltage(10000);
-        if (((Ring_Optical.get_hue()<13)& (Ring_Optical.get_proximity()<255))){ //& (Ring_Optical.get_proximity()>5)
+        IntakeMotor.move_voltage(12000);
+        if (get_opticalColor() == 2){ 
                IntakeMotor.brake();
-               pros::delay(3000);
+               pros::delay(2500);
                return;
         } 
+    printf("my int: %d\n", get_opticalColor());
     }
+}
+
+// Get color without delay
+static int get_opticalColor() {
+    double hue = Ring_Optical.get_hue();
+    if (Ring_Optical.get_proximity() < 100) return 1; //none
+    if (hue < 10 || hue > 355) return 2; //red
+    if (hue > 200 && hue < 240) return 3; //blue
+    return 1;
 }
 
 void Clamp(){

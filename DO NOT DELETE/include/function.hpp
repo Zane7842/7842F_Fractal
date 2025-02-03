@@ -12,6 +12,8 @@ void Auton_Intake();
 
 void Auton_StopIntake();
 
+static int get_opticalColor();
+
 void Auto_Clamp ();
 
 void Clamp ();
