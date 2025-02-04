@@ -38,17 +38,17 @@ void Intake(){
         IntakeMotor.move_voltage(0);
         }
         //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
-        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-            sort_red = !sort_red;   
-        }
+        // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+        //     sort_red = !sort_red;   
+        // }
 
-            if ((Ring_Optical.get_hue()<13)){
-                is_red = true;
-            }
-            if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
-                is_red = false;
-            }
-            if(is_red == false){
+        //     if ((Ring_Optical.get_hue()<13)){
+        //         is_red = true;
+        //     }
+        //     if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
+        //         is_red = false;
+        //     }
+            if(get_opticalColor() == 3){
                 //Sort Blue
                 if ((Ring_Distance.get() < 25)){
                 target_position = 40;  
@@ -57,6 +57,10 @@ void Intake(){
                 Match_Sort();  
                 }   
             }
+
+            // if (target_position > 0 & target_position < 6){
+            //     if (IntakeMotor.get)
+            // }
 
     // printf("my int: %d\n", Initial_delay);
 
@@ -86,12 +90,11 @@ void Auton_Intake(){
 void Auton_StopIntake(){
     while (true){
         IntakeMotor.move_voltage(12000);
-        if (get_opticalColor() == 2){ 
+        if (get_opticalColor() == desired_ring){ 
                IntakeMotor.brake();
                pros::delay(2500);
                return;
         } 
-    printf("my int: %d\n", get_opticalColor());
     }
 }
 
@@ -167,16 +170,16 @@ void LadyBrown(){
             }
             //Out of way position
             if (arm_state == 0){
-                target_position = -19;  
+                target_position = -23.25;  
                 arm_state = 1;
             }
             //Load Position
             else if (arm_state == 1){
-                target_position = 0;
+                target_position = 4;
                 arm_state = 2;
             }
             else if (arm_state == 2){
-                target_position = 110;
+                target_position = 85; //110 for passive score
                 arm_state = 3;
             }
             //Prime Position

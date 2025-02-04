@@ -8,8 +8,8 @@ extern void Tune_AngularPID();
 extern void Skills();
 
 extern void SAWP();
-extern void SimpleSAWP();
-extern void Mogo_Rush();
+extern void SimpleSAWP_red();
+extern void Mogo_Rush_blue();
 extern void Negative_Elim();
 
 

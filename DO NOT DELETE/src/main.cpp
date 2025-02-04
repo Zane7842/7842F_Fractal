@@ -102,15 +102,15 @@ void autonomous() {
  */
 void opcontrol() {
 
-pros::Task Print(print_odom);
+// pros::Task Print(print_odom);
 
-// Auton_StopIntake();
+// // Auton_StopIntake();
 
-    while(true){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-    SimpleSAWP();
-    }
-    }
+//     while(true){
+//     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+//     Negative_Elim();
+//     }
+//     }
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);

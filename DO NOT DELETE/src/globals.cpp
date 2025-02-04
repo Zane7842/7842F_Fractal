@@ -94,6 +94,7 @@ pros::Motor IntakeMotor (-18);
 pros::Optical Ring_Optical (2);
 pros::Distance Ring_Distance (21);
 bool Color_Switch = false;
+int desired_ring = 2;
 
 // Wall Stake 
 pros::MotorGroup WallStakeMotors ({8, -9}, pros::v5::MotorGears::green);

@@ -57,6 +57,7 @@ extern pros::Motor IntakeMotor;
 extern pros::Optical Ring_Optical;
 extern pros::Distance Ring_Distance;
 extern int Ring_Hue;
+extern int desired_ring;
 
 // Clamp
 extern pros::adi::Pneumatics Clamp_Piston;

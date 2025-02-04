@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "AWP",
+    "project_name": "Driver",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,8 +255,8 @@
       }
     },
     "upload_options": {
-      "description": "AWP",
-      "slot": 2,
+      "description": "Driver",
+      "slot": 1,
       "icon": "ufo"
     },
     "use_early_access": false
