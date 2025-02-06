@@ -70,11 +70,12 @@ extern pros::MotorGroup WallStakeMotors;
 extern pros::Rotation WallStakeRotation;
 extern float target_position;
 extern lemlib::PID LadyBrown_pid;
+extern double start_offset;
 
-// Hang
-extern pros::adi::Pneumatics PTO_Piston;
-extern pros::adi::Pneumatics Ratchet_Piston;
-extern bool PTO_Engage;
+// // Hang
+// extern pros::adi::Pneumatics PTO_Piston;
+// extern pros::adi::Pneumatics Ratchet_Piston;
+// extern bool PTO_Engage;
 
 // Doinker
 extern pros::adi::Pneumatics RightDoinker_Piston;

@@ -46,6 +46,8 @@ void initialize() {
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     // WallStakeMotors.set_zero_position(110);
 
+    // start_offset = 35;
+
 
 }
 
@@ -84,6 +86,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 
+SimpleSAWP_red();
 
 }
 
@@ -162,18 +165,6 @@ void opcontrol() {
             
         LeftDoinker_Piston.set_value(LeftDoinker_Down);
 
-/*Hang Controls*/
-
-if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            // If this is true, DoinkerDown will changed to false
-            // and vice versa. 
-            PTO_Piston.set_value(true); 
-        }
-if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            // If this is true, DoinkerDown will changed to false
-            // and vice versa. 
-            PTO_Piston.set_value(true); 
-        }
                           
 //Overides-------------------------------------------------------------------------------
 

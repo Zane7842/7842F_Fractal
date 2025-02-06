@@ -48,15 +48,15 @@ void Intake(){
         //     if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
         //         is_red = false;
         //     }
-            if(get_opticalColor() == 3){
-                //Sort Blue
-                if ((Ring_Distance.get() < 25)){
-                target_position = 40;  
-                } 
-                if ((Ring_Distance.get() < 10)){
-                Match_Sort();  
-                }   
-            }
+            // if(get_opticalColor() == 3){
+            //     //Sort Blue
+            //     if ((Ring_Distance.get() < 25)){
+            //     target_position = 40;  
+            //     } 
+            //     if ((Ring_Distance.get() < 10)){
+            //     Match_Sort();  
+            //     }   
+            // }
 
             // if (target_position > 0 & target_position < 6){
             //     if (IntakeMotor.get)
@@ -71,7 +71,7 @@ void Intake(){
 void Auton_Intake(){
     is_red = true;
     while (true){
-        if(get_opticalColor() == 2){
+        if(true){
             //Sort Blue
             if ((Ring_Distance.get() < 25)){
             target_position = 40;  
@@ -101,7 +101,7 @@ void Auton_StopIntake(){
 // Get color without delay
 static int get_opticalColor() {
     double hue = Ring_Optical.get_hue();
-    if (Ring_Optical.get_proximity() < 100) return 1; //none
+    if (Ring_Optical.get_proximity() < 100) return 1; //none //IMPORTANT: was set to 100 for autons
     if (hue < 10 || hue > 355) return 2; //red
     if (hue > 200 && hue < 240) return 3; //blue
     return 1;
@@ -170,27 +170,28 @@ void LadyBrown(){
             }
             //Out of way position
             if (arm_state == 0){
-                target_position = -23.25;  
+                target_position = -23.25 + start_offset;  
                 arm_state = 1;
             }
             //Load Position
             else if (arm_state == 1){
-                target_position = 4;
+                target_position = 4 + start_offset;
                 arm_state = 2;
             }
+             //Prime Position
             else if (arm_state == 2){
-                target_position = 85; //110 for passive score
+                target_position =110 + start_offset; //110 for passive score
                 arm_state = 3;
             }
-            //Prime Position
+           //Score position
             else if (arm_state == 3){
-                target_position = 145;
+                target_position = 145 + start_offset;
                 arm_state = 0;
             }
         }
         // //Debug Print
         // printf("my float: %f\n", output);
-        // pros::delay(10);
+        pros::delay(10);
     }
 }
 
