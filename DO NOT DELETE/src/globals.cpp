@@ -18,7 +18,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Controller controller_mechops(pros::E_CONTROLLER_MASTER);
 // motor groups                                                                                                                                                                                                                                                                                            pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-pros::MotorGroup leftMotors({-15, -14, -18}, pros::MotorGearset::blue); // left motors on ports 14, 15, 16
+pros::MotorGroup leftMotors({-14, -15, -16}, pros::MotorGearset::blue); // left motors on ports 14, 15, 16
 pros::MotorGroup rightMotors({19, 12, 13}, pros::MotorGearset::blue); // right motors on ports 11, 12, 13
 
 // Inertial Sensor on port 10
@@ -27,7 +27,7 @@ pros::Imu imu(8);
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
 pros::Rotation horizontalEnc(20);
 // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
-pros::Rotation verticalEnc(17);
+pros::Rotation verticalEnc(18);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
 lemlib::TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_275, 0.9);//Tracking Center at middle of drive (for at intake: 6.9)
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
@@ -101,12 +101,12 @@ pros::MotorGroup WallStakeMotors ({10, -9}, pros::v5::MotorGears::green);
 pros::Rotation WallStakeRotation (1);
 float target_position;
 // LadyBrown Pid controller
-PID LadyBrown_pid (0.45, 0, 0.001);
+PID LadyBrown_pid (0.45, 0, 0.001); //test comment
 double start_offset = 0;
 
 // Clamp
 pros::adi::Pneumatics Clamp_Piston('h', false);   // Starts extended, retracts when the ADI port is high
-pros::Optical AutoClamp_Optical (16);
+pros::Optical AutoClamp_Optical (17);
 bool ClampDown = false; // by default, the clamp will be up.
 bool ClampUp = true;
 

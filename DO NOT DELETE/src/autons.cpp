@@ -462,7 +462,7 @@ void Negative_Elim_red(){
         chassis.moveToPose(-60.92, -49.6, 180, 1600, {.maxSpeed = 80}); 
         chassis.moveToPose(-60.92, -56.6, 180, 1500, {.maxSpeed = 80}); 
 //Move to position for line rings
-        chassis.moveToPose(-46.35, -28.4, -90, 2000, {.forwards = false, .lead = 0.1}); 
+        chassis.moveToPose(-46.35, -28.4, -90, 2000, {.forwards = false, .lead = 0.2}); //was 0.1
         chassis.turnToPoint(-47.1, -47.1, 800);
         chassis.moveToPose(-45.25, -40.57, 180, 1300);
         chassis.moveToPose(-37.68, -9.83, 311.24, 5000);
@@ -518,7 +518,7 @@ void Negative_Elim_blue(){
         chassis.moveToPose(60.92, -49.6, -180, 1600, {.maxSpeed = 80}); //was -60.92, 180
         chassis.moveToPose(60.92, -56.6, -180, 1500, {.maxSpeed = 80}); //was -60.92, 180
 //Move to position for line rings
-        chassis.moveToPose(46.35, -28.4, 90, 2000, {.forwards = false, .lead = 0.1}); //was -46.35, -90
+        chassis.moveToPose(46.35, -28.4, 90, 2000, {.forwards = false, .lead = 0.2}); //was -46.35, -90 was lead 0f 0.1
         chassis.turnToPoint(47.1, -47.1, 800); //was -47.1
         chassis.moveToPose(45.25, -40.57, -180, 1300); //was -45.25, 180
         chassis.moveToPose(37.68, -9.83, -311.24, 5000); //was -37.68, 311.24
