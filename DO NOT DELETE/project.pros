@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Driver",
+    "project_name": "neg",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,9 +255,9 @@
       }
     },
     "upload_options": {
-      "description": "Driver",
+      "description": "neg",
       "slot": 1,
-      "icon": "ufo"
+      "icon": "pizza"
     },
     "use_early_access": false
   }

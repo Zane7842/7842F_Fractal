@@ -212,7 +212,7 @@ void SimpleSAWP_red(){
         // chassis.turnToPoint(-48.26, 21.56, 500);
         chassis.moveToPose(-48.26, 21.56, 242, 2000,{.lead = 0, .minSpeed=100});
         chassis.waitUntil(3);
-    target_position = 105;
+    target_position = 145;
 }
 void SimpleSAWP_blue(){
 //Note: Alliance Stake is 0, 0
@@ -306,7 +306,7 @@ void SimpleSAWP_blue(){
         // chassis.turnToPoint(-48.26, 21.56, 500);
         chassis.moveToPose(48.26, 21.56, -242, 2000,{.lead = 0, .minSpeed=100}); //was -48.26, 242
         chassis.waitUntil(3);
-    target_position = 105;
+    target_position = 145;
 }
 
 void Mogo_Rush_red(){
@@ -441,7 +441,7 @@ void Negative_Elim_red(){
         chassis.moveToPose(-35, -17.3, 62.2, 1100, {.forwards = false, .minSpeed=79, .earlyExitRange=8.5}); // 1400
         chassis.waitUntil(5);
     target_position = -20;
-        chassis.moveToPose(-48, -24, 62.2, 500, {.forwards = false,.maxSpeed = 75}); 
+        chassis.moveToPose(-48, -24, 62.2, 800, {.forwards = false,.maxSpeed = 60}); 
         chassis.waitUntilDone();
 
     //115 degree with an empty mobile goal constant
@@ -458,11 +458,15 @@ void Negative_Elim_red(){
         chassis.moveToPose(-46.35, -28.4, -90, 2000, {.forwards = false, .lead = 0.1}); 
         chassis.turnToPoint(-47.1, -47.1, 800);
         chassis.moveToPose(-45.25, -40.57, 180, 1300);
+        chassis.moveToPose(-37.68, -9.83, 311.24, 5000);
+        chassis.waitUntil(8);
+        target_position = 145;
+        // chassis.moveToPose(float x, float y, float theta, int timeout)
         // chassis.waitUntilDone();
         // chassis.turnToPoint(-4, -4, 1000);
         // chassis.moveToPose(-4, -4, 48, 3000);
-        chassis.moveToPose(-4.9, -58.56, 178.65, 2400,{.maxSpeed = 100});
-        chassis.moveToPose(-15.88, -18.4, 180, 4000,{.forwards = false, .minSpeed = 80});
+        // chassis.moveToPose(-4.9, -58.56, 178.65, 3400,{.maxSpeed = 100}); //get corner rings ()
+        // chassis.moveToPose(-15.88, -18.4, 180, 4000,{.forwards = false, .minSpeed = 80});//og end pos
 }
 void Negative_Elim_blue(){
 //Note: Alliance Stake is 0, 0
