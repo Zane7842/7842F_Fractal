@@ -87,12 +87,12 @@ void competition_initialize() {}
 void autonomous() {
 
 pros::Task Print(print_odom);
-Negative_Elim_red();
+SimpleSAWP_red();
 
 }
 
 /**
- * Runs the operator control code. This function will be started in its own task
+ * Runs the nmnmmd operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the operator
  * control mode.

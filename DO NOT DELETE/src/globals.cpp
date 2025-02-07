@@ -91,7 +91,7 @@ lemlib::Chassis chassis(drivetrain, linear_controller, angular_controller, senso
 
 // Intake
 pros::Motor IntakeMotor (-21);
-pros::Optical Ring_Optical (5);
+pros::Optical Ring_Optical (4);
 pros::Distance Ring_Distance (12);
 bool Color_Switch = false;
 int desired_ring = 2;
