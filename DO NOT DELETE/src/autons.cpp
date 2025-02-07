@@ -235,7 +235,7 @@ void SimpleSAWP_blue(){
         chassis.moveToPose(14.5, -8.25, 0, 550); //was -14.5
         chassis.turnToPoint(0, 0, 500);
         chassis.waitUntilDone();
-        target_position = 160;
+        target_position = 180;
     pros::delay(500);
 
         //Grab first mogo
@@ -289,7 +289,7 @@ void SimpleSAWP_blue(){
         chassis.turnToPoint(47.23, 23.61, 550,{.forwards = false}); //was -47.23
         chassis.waitUntilDone();
         ClampUp = false;
-        chassis.moveToPose(49.23, 23.61, -90, 1550,{.forwards = false, .maxSpeed = 65}); //was -49.23, 90
+        chassis.moveToPose(49.23, 23.61, -90, 1550,{.forwards = false, .maxSpeed = 55}); //was -49.23, 90
         chassis.waitUntilDone();
 
     //90 degree with a mobile goal constant
@@ -301,12 +301,12 @@ void SimpleSAWP_blue(){
         chassis.turnToPoint(49.92, 47, 300); //was -49.92
         chassis.waitUntilDone();
         IntakeMotor.move_voltage(12000);
-        chassis.moveToPose(49.92, 39.9, 0, 700, {.minSpeed=100, .earlyExitRange=8}); //was-49.92, 0
+        chassis.moveToPose(49.92, 39.9, 0, 700, {.minSpeed=105, .earlyExitRange=8}); //was-49.92, 0
         // Touch Ladder
         // chassis.turnToPoint(-48.26, 21.56, 500);
-        chassis.moveToPose(48.26, 21.56, -242, 2000,{.lead = 0, .minSpeed=100}); //was -48.26, 242
+        chassis.moveToPose(48.26, 21.56, -242, 2000,{.lead = 0, .minSpeed=127}); //was -48.26, 242
         chassis.waitUntil(3);
-    target_position = 145;
+    target_position = 147;
 }
 
 void Mogo_Rush_red(){
