@@ -141,7 +141,7 @@ void SimpleSAWP_red(){
         chassis.moveToPose(-14.5, -8.25, 0, 550);
         chassis.turnToPoint(0, 0, 500);
         chassis.waitUntilDone();
-        target_position = 160;
+        target_position = 180;
     pros::delay(500);
 
         //Grab first mogo
@@ -212,7 +212,7 @@ void SimpleSAWP_red(){
         // chassis.turnToPoint(-48.26, 21.56, 500);
         chassis.moveToPose(-48.26, 21.56, 242, 2000,{.lead = 0, .minSpeed=127});
         chassis.waitUntil(3);
-    target_position = 145;
+    target_position = 147;
 }
 void SimpleSAWP_blue(){
 //Note: Alliance Stake is 0, 0
