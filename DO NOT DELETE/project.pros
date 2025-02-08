@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "SAWP_blue",
+    "project_name": "Rush_red",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,9 +255,9 @@
       }
     },
     "upload_options": {
-      "description": "SAWP_blue",
+      "description": "Rush_red",
       "slot": 3,
-      "icon": "X"
+      "icon": "alien"
     },
     "use_early_access": false
   }

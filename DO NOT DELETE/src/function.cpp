@@ -71,7 +71,7 @@ void Intake(){
 
 void Auton_Intake(){
     is_red = true;
-    while (true){
+    while (pros::competition::is_autonomous()){
         if(true){
             //Sort Blue
             if ((Ring_Distance.get() < 25)){
@@ -89,7 +89,7 @@ void Auton_Intake(){
 }
 
 void Auton_StopIntake(){
-    while (true){
+    while (pros::competition::is_autonomous()){
         IntakeMotor.move_voltage(12000);
         if (get_opticalColor() == desired_ring){ 
                IntakeMotor.brake();

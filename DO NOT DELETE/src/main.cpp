@@ -44,9 +44,9 @@ void initialize() {
 
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::brake);
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-    // WallStakeMotors.set_zero_position(110);
+    pros::Task ladyBrown(LadyBrown);
 
-    // start_offset = 35;
+    start_offset = 25;
 
 
 }
@@ -87,8 +87,7 @@ void competition_initialize() {}
 void autonomous() {
 
 pros::Task Print(print_odom);
-SimpleSAWP_blue();
-
+Mogo_Rush_red();
 }
 
 /**
@@ -117,11 +116,10 @@ void opcontrol() {
 //     }
 //     }
 
-/*Terminate Auto Task*/
 /*Tasks*/
     pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
-    pros::Task ladyBrown(LadyBrown);
+   
     ClampUp = false; //CHANGED LINE
 
 
@@ -158,30 +156,13 @@ void opcontrol() {
             // and vice versa. 
             RightDoinker_Down = !RightDoinker_Down; 
         }
-            
         RightDoinker_Piston.set_value(RightDoinker_Down);
 
- if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             // If this is true, DoinkerDown will changed to false
             // and vice versa. 
             LeftDoinker_Down = !LeftDoinker_Down; 
         }
-            
         LeftDoinker_Piston.set_value(LeftDoinker_Down);
-
-                          
-//Overides-------------------------------------------------------------------------------
-
-    // Auto Clamp 
-        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-            ClampOver = !ClampOver;
-            }
-    // Ring Sort
-        if(controller_mechops.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-            SortOver = !SortOver;
-            }
-        
-        // delay to save resources
-        pros::delay(25);  
     }
 }

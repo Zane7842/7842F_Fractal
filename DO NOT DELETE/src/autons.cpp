@@ -124,7 +124,7 @@ void SimpleSAWP_red(){
 //Note: Alliance Stake is 0, 0
     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
@@ -218,7 +218,7 @@ void SimpleSAWP_blue(){
 //Note: Alliance Stake is 0, 0
     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
@@ -313,7 +313,7 @@ void Mogo_Rush_red(){
 //Note: Middle Ring STack is 0,0
  ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
@@ -367,7 +367,7 @@ void Mogo_Rush_blue(){
 //Note: Middle Ring STack is 0,0
  ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
@@ -423,7 +423,7 @@ void Negative_Elim_red(){
 //Note: Alliance Stake is 0, 0
     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
@@ -479,7 +479,7 @@ void Negative_Elim_blue(){
 //Note: Alliance Stake is 0, 0
     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    pros::Task ladyBrown(LadyBrown);
+    // pros::Task ladyBrown(LadyBrown);
 
     //62 degrees with 1 ring constants
     angular_controller.kP = 4.53;
