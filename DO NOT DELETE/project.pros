@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "neg_red",
+    "project_name": "SAWP_blue",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -255,9 +255,9 @@
       }
     },
     "upload_options": {
-      "description": "neg_red",
-      "slot": 1,
-      "icon": "pizza"
+      "description": "SAWP_blue",
+      "slot": 3,
+      "icon": "X"
     },
     "use_early_access": false
   }

@@ -87,7 +87,7 @@ void competition_initialize() {}
 void autonomous() {
 
 pros::Task Print(print_odom);
-Negative_Elim_blue();
+SimpleSAWP_blue();
 
 }
 
