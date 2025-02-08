@@ -106,6 +106,7 @@ SimpleSAWP_blue();
  */
 void opcontrol() {
 
+
 // pros::Task Print(print_odom);
 
 // // Auton_StopIntake();
@@ -116,10 +117,12 @@ void opcontrol() {
 //     }
 //     }
 
+/*Terminate Auto Task*/
 /*Tasks*/
     pros::Task matchClamp(Clamp);
     pros::Task Sort(Intake);
     pros::Task ladyBrown(LadyBrown);
+    ClampUp = false; //CHANGED LINE
 
 
 //Main Loop

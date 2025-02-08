@@ -5,6 +5,7 @@
 #include "globals.hpp"
 #include "pros/colors.hpp"
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 
 using namespace Globals;
 
@@ -122,15 +123,14 @@ void Clamp(){
 
 void Auto_Clamp(){
   
-    while (true){
-         // If Mogo color is detected
-        if ( (AutoClamp_Optical.get_proximity() > 250) & ((ClampUp == false) )){ 
-        //(AutoClamp_Optical.get_hue() >= 70)
-        ClampDown = true; 
-        Clamp_Piston.set_value(ClampDown);
+    while (pros::competition::is_autonomous()){
+        //  If Mogo color is detected
+       if ( (AutoClamp_Optical.get_proximity() > 250) & ((ClampUp == false) )){ 
+       ClampDown = true; 
+       Clamp_Piston.set_value(ClampDown);
         pros::delay(500);
         }
-    }
+   }
 
 }
 
