@@ -116,19 +116,19 @@ void Clamp(){
         //(AutoClamp_Optical.get_hue() >= 70)
         ClampDown = true; 
         Clamp_Piston.set_value(ClampDown);
-        pros::delay(500);
+        pros::delay(250);
         }
     }
 }
 
 void Auto_Clamp(){
-  
+    //will only run in auton m
     while (pros::competition::is_autonomous()){
         //  If Mogo color is detected
        if ( (AutoClamp_Optical.get_proximity() > 250) & ((ClampUp == false) )){ 
        ClampDown = true; 
        Clamp_Piston.set_value(ClampDown);
-        pros::delay(500);
+        pros::delay(400);
         }
    }
 

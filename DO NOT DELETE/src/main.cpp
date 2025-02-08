@@ -46,7 +46,7 @@ void initialize() {
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     pros::Task ladyBrown(LadyBrown);
 
-    start_offset = 25;
+    // start_offset = 32.9;
 
 
 }
@@ -79,7 +79,7 @@ void competition_initialize() {}
  * the Field Management System or the VEX Competition Switch in the autonomous
  * mode. Alternatively, this function may be called in initialize or opcontrol
  * for non-competition testing purposes.
- *
+ * 
  * If the robot is disabled or communications is lost, the autonomous task
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
@@ -87,7 +87,7 @@ void competition_initialize() {}
 void autonomous() {
 
 pros::Task Print(print_odom);
-Mogo_Rush_red();
+Negative_Elim_red();
 }
 
 /**

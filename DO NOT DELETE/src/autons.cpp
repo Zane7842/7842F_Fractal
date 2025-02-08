@@ -141,15 +141,14 @@ void SimpleSAWP_red(){
         chassis.moveToPose(-14.5, -8.25, 0, 550);
         chassis.turnToPoint(0, 0, 500);
         chassis.waitUntilDone();
-        target_position = 180;
+        ClampUp = false;
+        target_position = 190;
     pros::delay(500);
-
         //Grab first mogo
-    ClampUp = false;
         chassis.moveToPose(-35, -17.3, 62.2, 1100, {.forwards = false, .minSpeed=79, .earlyExitRange=8.5}); // 1400
         chassis.waitUntil(5);
     target_position = -20;
-        chassis.moveToPose(-48, -24, 62.2, 500, {.forwards = false,.maxSpeed = 75}); 
+        chassis.moveToPose(-48, -24, 62.2, 1000, {.forwards = false,.maxSpeed = 54}); 
         chassis.waitUntilDone();
 
     //115 degree with an empty mobile goal constant
@@ -182,6 +181,7 @@ void SimpleSAWP_red(){
         //Sort+Store second ring 
         chassis.turnToPoint(-24.8, 3.7, 600);
         chassis.waitUntilDone();
+        IntakeMotor.move_voltage(12000);
         desired_ring = 2;//Red ring is desired
     pros::Task RingSort(Auton_StopIntake); 
         chassis.moveToPose(-32.75, -10.15, 21, 1200, {.minSpeed=80, .earlyExitRange=8});
@@ -195,7 +195,7 @@ void SimpleSAWP_red(){
         chassis.turnToPoint(-47.23, 23.61, 550,{.forwards = false});
         chassis.waitUntilDone();
         ClampUp = false;
-        chassis.moveToPose(-49.23, 23.61, 90, 1650,{.forwards = false, .maxSpeed = 55});
+        chassis.moveToPose(-49.23, 23.61, 90, 1900,{.forwards = false, .maxSpeed = 49});
         chassis.waitUntilDone();
 
     //90 degree with a mobile goal constant
@@ -332,7 +332,7 @@ void Mogo_Rush_red(){
         // IntakeMotor.brake();
         target_position = 190;
         chassis.turnToHeading(90, 300); //was -90
-        chassis.moveToPose(7.8, 15, 90, 5000); //,{.lead = 0} //was -7.8, -90
+        chassis.moveToPose(7.8, 14.5, 90, 5000); //,{.lead = 0} //was -7.8, -90  //was y of 15 but crossed
         chassis.waitUntilDone();
         //Grab mobile goal
         ClampUp = false; //Allows autoclamp to run
