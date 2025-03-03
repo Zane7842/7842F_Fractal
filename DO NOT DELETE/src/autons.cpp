@@ -8,7 +8,7 @@ using namespace Globals;
 
 void Tune_LateralPID(){
     chassis.setPose(0, 0, 0);
-    chassis.moveToPose(0, 23, 0, 10000);
+    chassis.moveToPose(0, 48, 0, 10000, {.maxSpeed = 80});
     // chassis.turnToHeading(180, 100000);
     // chassis.moveToPose(0, 0, 0, 10000);
     // chassis.turnToHeading(0, 100000);
@@ -21,8 +21,8 @@ void Tune_LateralPID(){
 void Tune_AngularPID(){
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(123, 100000);
+    // turn to face heading 180 with a very long timeout
+    chassis.turnToHeading(180, 100000);
 }
 
 void Skills(){
@@ -142,13 +142,13 @@ void SimpleSAWP_red(){
         chassis.turnToPoint(0, 0, 500);
         chassis.waitUntilDone();
         ClampUp = false;
-        target_position = 190;
+        target_position = 180;
     pros::delay(500);
         //Grab first mogo
         chassis.moveToPose(-35, -17.3, 62.2, 1100, {.forwards = false, .minSpeed=79, .earlyExitRange=8.5}); // 1400
         chassis.waitUntil(5);
     target_position = -20;
-        chassis.moveToPose(-48, -24, 62.2, 1000, {.forwards = false,.maxSpeed = 54}); 
+        chassis.moveToPose(-48, -24, 62.2, 500, {.forwards = false,.maxSpeed = 75}); 
         chassis.waitUntilDone();
 
     //115 degree with an empty mobile goal constant
@@ -181,9 +181,9 @@ void SimpleSAWP_red(){
         //Sort+Store second ring 
         chassis.turnToPoint(-24.8, 3.7, 600);
         chassis.waitUntilDone();
-        IntakeMotor.move_voltage(12000);
-        desired_ring = 2;//Red ring is desired
-    pros::Task RingSort(Auton_StopIntake); 
+        IntakeMotor.move_voltage(12000); //addee explicit intake move on top of function.
+        // desired_ring = 2;//Red ring is desired
+    // pros::Task RingSort(Auton_StopIntake); 
         chassis.moveToPose(-32.75, -10.15, 21, 1200, {.minSpeed=80, .earlyExitRange=8});
         chassis.waitUntil(25);
         ClampDown = false; 
@@ -195,7 +195,7 @@ void SimpleSAWP_red(){
         chassis.turnToPoint(-47.23, 23.61, 550,{.forwards = false});
         chassis.waitUntilDone();
         ClampUp = false;
-        chassis.moveToPose(-49.23, 23.61, 90, 1900,{.forwards = false, .maxSpeed = 49});
+        chassis.moveToPose(-49.23, 23.61, 90, 1650,{.forwards = false, .maxSpeed = 55});
         chassis.waitUntilDone();
 
     //90 degree with a mobile goal constant
@@ -309,224 +309,106 @@ void SimpleSAWP_blue(){
     target_position = 147;
 }
 
-void Mogo_Rush_red(){
-//Note: Middle Ring STack is 0,0
- ClampUp = true; //Ensures Clamp is up
+
+void Positive_red_negative_blue(){
+
+     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    // pros::Task ladyBrown(LadyBrown);
+    ClampUp = true;
+         Clamp_Piston.set_value(false);
 
-    //62 degrees with 1 ring constants
-    angular_controller.kP = 4.53;
-    angular_controller.kI = 0.0029;
-    angular_controller.kD = 43;
-    //8.5" and 23" lateral (no goal)
-    linear_controller.kP = 31;
-    linear_controller.kI = 0.0000;
-    linear_controller.kD = 213;
-
-        chassis.setPose(11.18, -28.32, 0); //was 11.18, 0
-        // IntakeMotor.move_voltage(-12000);
-
-    chassis.moveToPose(-5.68, 12.23, 30.79, 1000,{.lead = 0.3}); //was 5.68, -30.79
-     chassis.waitUntil(3);
-        // IntakeMotor.brake();
-        target_position = 190;
-        chassis.turnToHeading(90, 300); //was -90
-        chassis.moveToPose(7.8, 14.5, 90, 5000); //,{.lead = 0} //was -7.8, -90  //was y of 15 but crossed
-        chassis.waitUntilDone();
-        //Grab mobile goal
-        ClampUp = false; //Allows autoclamp to run
-        chassis.moveToPose(-13.78, 7.78, 45, 3000, {.forwards = false, .lead = 0, .minSpeed = 50, .earlyExitRange=8}); //Fatser movement //was 13.78, -45
-        chassis.waitUntil(5);
-        target_position = -19; //Lady brown returs to position
-        chassis.moveToPose(-22.37, 0, 45, 2000, {.forwards = false, .maxSpeed = 50}); //Grabs mobile goal //was 22.37, -45
-        chassis.waitUntilDone();
-        IntakeMotor.move_voltage(12000); //Scores first ring
-        // IntakeMotor.move_voltage(12000);
-        // chassis.turnToPoint(-0.58, float y, int timeout)
-        chassis.moveToPose(0.58, -0.28, 90, 3000); //was -0.58, -90
-        chassis.waitUntil(2);
-        desired_ring = 2; //Sets desired ring to blue, blue ring will stop in intake //was 3 for blue
-        pros::Task RingSort(Auton_StopIntake); //function runs for sotpping intake
-        ClampDown = false; //boolean to tell goal to unclamp
-        ClampUp = true; //Prevents autoclalmp from clamping
-        Clamp_Piston.set_value(ClampDown); //Drops  mogo
-
-        //grab second mobile goal (rushed one) c
-        // chassis.turnToPoint(-17.42, 14.51, 1000, {.forwards = false});
-        chassis.moveToPose(11.63, 12.63, 232.3, 5000, {.forwards = false,  .maxSpeed = 50}); //moves to second goal //was -11.63, -232.3
-        chassis.waitUntil(0.25); //delay to give time for goal to unclamp 
-        ClampUp = false; //allows autoclamp to run
-        chassis.waitUntilDone();
-        IntakeMotor.move_voltage(12000); //scores second ring
-        chassis.moveToPose(-14.02, 11.14, 287.1, 5000); //was 14.02, -287.1
-        chassis.waitUntil(5); 
-        target_position = 180;
-}
-void Mogo_Rush_blue(){
-//Note: Middle Ring STack is 0,0
- ClampUp = true; //Ensures Clamp is up
-    pros::Task Clamp(Auto_Clamp);
-    // pros::Task ladyBrown(LadyBrown);
-
-    //62 degrees with 1 ring constants
-    angular_controller.kP = 4.53;
-    angular_controller.kI = 0.0029;
-    angular_controller.kD = 43;
-    //8.5" and 23" lateral (no goal)
-    linear_controller.kP = 31;
-    linear_controller.kI = 0.0000;
-    linear_controller.kD = 213;
-
-        chassis.setPose(11.43, -28.32, 0);
-        // IntakeMotor.move_voltage(-12000);
-
-    chassis.moveToPose(5.68, 12.23, -30.79, 1000,{.lead = 0.3});
-     chassis.waitUntil(3);
-        // IntakeMotor.brake();
-        target_position = 213; //was 190
-        chassis.turnToHeading(-90, 300);
-        chassis.moveToPose(-7.8, 15, -90, 1500); //,{.lead = 0}
-        chassis.waitUntilDone();
-        target_position = -19; //Lady brown returs to position
-        //Grab mobile goal
-        ClampUp = false; //Allows autoclamp to run
-        chassis.moveToPose(13.78, 7.78, -45, 3000, {.forwards = false, .lead = 0, .minSpeed = 50, .earlyExitRange=8}); //Fatser movement 
-        chassis.moveToPose(22.37, 0, -45, 2000, {.forwards = false, .maxSpeed = 50}); //Grabs mobile goal
-        chassis.waitUntilDone();
-        IntakeMotor.move_voltage(12000); //Scores first ring
-        // IntakeMotor.move_voltage(12000);
-        // chassis.turnToPoint(-0.58, float y, int timeout)
-        chassis.moveToPose(-0.58, -0.28, -90, 3000); 
-        chassis.waitUntil(2);
-        desired_ring = 3; //Sets desired ring to blue, blue ring will stop in intake
-        pros::Task RingSort(Auton_StopIntake); //function runs for sotpping intake
-        ClampDown = false; //boolean to tell goal to unclamp
-        ClampUp = true; //Prevents autoclalmp from clamping
-        Clamp_Piston.set_value(ClampDown); //Drops  mogo
-
-        //grab second mobile goal (rushed one) c
-        // chassis.turnToPoint(-17.42, 14.51, 1000, {.forwards = false});
-        chassis.moveToPose(-11.63, 12.63, -232.3, 2000, {.forwards = false,  .maxSpeed = 50}); //moves to second goal
-        chassis.waitUntil(0.25); //delay to give time for goal to unclamp
-        ClampUp = false; //allows autoclamp to run
-        chassis.waitUntilDone();
-        IntakeMotor.move_voltage(12000); //scores second ring
-        chassis.moveToPose(14.02, 11.14, -287.1, 5000);
-        chassis.waitUntil(5);
-        target_position = 180;
-}
-
-//541 deg
-
-void Negative_Elim_red(){
-//Note: Alliance Stake is 0, 0
-    ClampUp = true; //Ensures Clamp is up
-    pros::Task Clamp(Auto_Clamp);
-    // pros::Task ladyBrown(LadyBrown);
-
-    //62 degrees with 1 ring constants
-    angular_controller.kP = 4.53;
-    angular_controller.kI = 0.0029;
-    angular_controller.kD = 43;
-    //8.5" and 23" lateral (no goal)
-    linear_controller.kP = 31;
-    linear_controller.kI = 0.0000;
-    linear_controller.kD = 213;
-
-        chassis.setPose(-14.5, -15.25, 0);
-
-        //Score Alliance Stake
-        chassis.moveToPose(-14.5, -8.25, 0, 550);
-        chassis.turnToPoint(0, 0, 500);
-        chassis.waitUntilDone();
-        target_position = 160;
+    chassis.setPose(14.5, -18.23, -35);
+    pros::delay(2000);
+    //score alliance stake
+    target_position = 165;
     pros::delay(500);
-
-        //Grab first mogo
+    //align to get ring stack
+    chassis.moveToPose(33.5, -29, 0, 2000,{.forwards = false}); // subject to change
+    chassis.moveToPose(34, -20, 0, 1700); // subject to change
+    chassis.waitUntil(7);
+// LeftDoinker_Down = true; 
+LeftDoinker_Piston.set_value(true);
+    chassis.moveToPose(34, -29, 0, 1000,{.forwards = false}); // subject to change
+    chassis.waitUntil(5);
+// LeftDoinker_Down = false; 
+LeftDoinker_Piston.set_value(false);
+pros::Task Intake(Auton_StopIntake);
+    //Intake ring
+    chassis.moveToPose(28.10, -18.125, -24.86, 2000); // subject to change
+    chassis.waitUntilDone();
+    //grab mogo
     ClampUp = false;
-        chassis.moveToPose(-35, -17.3, 62.2, 1100, {.forwards = false, .minSpeed=79, .earlyExitRange=8.5}); // 1400
-        chassis.waitUntil(5);
-    target_position = -20;
-        chassis.moveToPose(-48, -24, 62.2, 800, {.forwards = false,.maxSpeed = 60}); 
-        chassis.waitUntilDone();
-
-    //115 degree with an empty mobile goal constant
-    angular_controller.kP = 4.52;
-    angular_controller.kI = 0.0000;
-    angular_controller.kD = 47;
-
-        //Intake first rings
+    chassis.moveToPose(49, -28.97, -60, 2500,{.forwards = false, .maxSpeed = 60}); //
+    chassis.waitUntilDone();
     IntakeMotor.move_voltage(12000);
-        chassis.turnToPoint(-58.3, -30.40, 900);
-        chassis.moveToPose(-60.92, -49.6, 180, 1600, {.maxSpeed = 80}); 
-        chassis.moveToPose(-60.92, -56.6, 180, 1500, {.maxSpeed = 80}); 
-//Move to position for line rings
-        chassis.moveToPose(-46.35, -28.4, -90, 2000, {.forwards = false, .lead = 0.2}); //was 0.1
-        chassis.turnToPoint(-47.1, -47.1, 800);
-        chassis.moveToPose(-45.25, -40.57, 180, 1300);
-        chassis.moveToPose(-37.68, -9.83, 311.24, 5000);
-        chassis.waitUntil(8);
-        target_position = 145;
-        // chassis.moveToPose(float x, float y, float theta, int timeout)
-        // chassis.waitUntilDone();
-        // chassis.turnToPoint(-4, -4, 1000);
-        // chassis.moveToPose(-4, -4, 48, 3000);
-        // chassis.moveToPose(-4.9, -58.56, 178.65, 3400,{.maxSpeed = 100}); //get corner rings ()
-        // chassis.moveToPose(-15.88, -18.4, 180, 4000,{.forwards = false, .minSpeed = 80});//og end pos
+    chassis.turnToPoint(52.52, -54.66, 1000,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
+    chassis.moveToPose(52.52, -54.66, 180, 2000,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
+
+
+    // chassis.moveToPose(51.13, -30.13, -120, 2000, {.forwards = false, .maxSpeed = 80});
+
+
+    // chassis.moveToPose(28.05, -21.28, 0, 2000); //straight on for stop intake function
+
+    // chassis.moveToPoint(26.68, -34.87, 2000, {.forwards = false,.minSpeed = 1});
+    // chassis.turnToPoint(28.4, -3.8, 2000, {.minSpeed = 1});
+
+    //Intake ring stack
+    // Auton_StopIntake();
+    // chassis.moveToPoint(28.4, -3.8, 2000, {.minSpeed = 1});
+
+
+    // //Grab mogo
+    // ClampUp = false;
+    // chassis.moveToPose(55.26, -22, -120, 2000, {.forwards = false, .maxSpeed = 80});
+    // chassis.waitUntilDone();
+    // IntakeMotor.move_voltage(12000);
+    // chassis.moveToPose(47.95, -41.51, -180, 3000, {.maxSpeed = 80});
+    // chassis.moveToPose(47.95, -19.5, -180, 1500, {.forwards = false,.maxSpeed = 80});
+
+    //  // corner
+    //     chassis.moveToPose(21.17, -58.3, -90, 2000, {.lead = 0.2});//prep
+    //     chassis.moveToPose(7.75, -59.69, -90, 2000, {.maxSpeed = 55});//inatke
+
+    // // chassis.turnToHeading(0, 1000);
+    // // chassis.waitUntilDone();
+    // // // target_position = 110;
+    // // //  chassis.moveToPose(47.95, -3, -180, 2000, {.maxSpeed = 80});
+    // //corner
+    // // chassis.turnToHeading(-135, 2000);
+    // // chassis.moveToPoint(12, -65.47, 4000, {.maxSpeed = 70});
 }
-void Negative_Elim_blue(){
-//Note: Alliance Stake is 0, 0
-    ClampUp = true; //Ensures Clamp is up
+
+void Positive_blue_negative_red(){
+
+     ClampUp = true; //Ensures Clamp is up
     pros::Task Clamp(Auto_Clamp);
-    // pros::Task ladyBrown(LadyBrown);
+    ClampUp = true;
+         Clamp_Piston.set_value(false);
 
-    //62 degrees with 1 ring constants
-    angular_controller.kP = 4.53;
-    angular_controller.kI = 0.0029;
-    angular_controller.kD = 43;
-    //8.5" and 23" lateral (no goal)
-    linear_controller.kP = 31;
-    linear_controller.kI = 0.0000;
-    linear_controller.kD = 213;
-
-        chassis.setPose(14.5, -15.25, 0); //was -14.5, 0
-
-        //Score Alliance Stake
-        chassis.moveToPose(14.5, -8.25, 0, 550); //was -14.5, 0
-        chassis.turnToPoint(0, 0, 500); //was 0, 0
-        chassis.waitUntilDone();
-        target_position = 160;
+    chassis.setPose(-14.5, -18.23, 35);
+    pros::delay(2000);
+    target_position = 185;
     pros::delay(500);
-
-        //Grab first mogo
     ClampUp = false;
-        chassis.moveToPose(35, -17.3, -62.2, 1100, {.forwards = false, .minSpeed=79, .earlyExitRange=8.5}); //was -35, 62.2
-        chassis.waitUntil(5);
-    target_position = -20;
-        chassis.moveToPose(48, -24, -62.2, 500, {.forwards = false,.maxSpeed = 75}); //was -48, 62.2
-        chassis.waitUntilDone();
-
-    //115 degree with an empty mobile goal constant
-    angular_controller.kP = 4.52;
-    angular_controller.kI = 0.0000;
-    angular_controller.kD = 47;
-
-        //Intake first rings
+    chassis.moveToPose(-55.26, -22, 120, 2000, {.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
     IntakeMotor.move_voltage(12000);
-        chassis.turnToPoint(58.3, -30.40, 900);//was -58.3
-        chassis.moveToPose(60.92, -49.6, -180, 1600, {.maxSpeed = 80}); //was -60.92, 180
-        chassis.moveToPose(60.92, -56.6, -180, 1500, {.maxSpeed = 80}); //was -60.92, 180
-//Move to position for line rings
-        chassis.moveToPose(46.35, -28.4, 90, 2000, {.forwards = false, .lead = 0.2}); //was -46.35, -90 was lead 0f 0.1
-        chassis.turnToPoint(47.1, -47.1, 800); //was -47.1
-        chassis.moveToPose(45.25, -40.57, -180, 1300); //was -45.25, 180
-        chassis.moveToPose(37.68, -9.83, -311.24, 5000); //was -37.68, 311.24
-        chassis.waitUntil(8);
-        target_position = 145;
-        // chassis.waitUntilDone();
-        // chassis.turnToPoint(-4, -4, 1000);
-        // chassis.moveToPose(-4, -4, 48, 3000);
-        // chassis.moveToPose(4.9, -58.56, -178.65, 2400,{.maxSpeed = 100}); //was -4.9, 178.65
-        // chassis.moveToPose(15.88, -18.4, -180, 4000,{.forwards = false, .minSpeed = 80}); //was -15.88, 180
+    chassis.moveToPose(-47.95, -41.51, 180, 3000, {.maxSpeed = 80});
+    chassis.moveToPose(-47.95, -19.5, 180, 1500, {.forwards = false,.maxSpeed = 80});
+    // chassis.turnToHeading(0, 1000);
+    // chassis.waitUntilDone();
+    // target_position = 110;
+    //  chassis.moveToPose(-47.95, -3, 180, 2000, {.maxSpeed = 80});
+    // corner
+        // chassis.moveToPose(-21.17, -58.3, 90, 2000, {.lead = 0.2});//prep
+        // chassis.moveToPose(-7.75, -60.69, 90, 2000, {.maxSpeed = 55});//inatke
+
+    // chassis.turnToHeading(-135, 2000);
+    // chassis.moveToPose(12, -65.47, 4000, {.maxSpeed = 70});
 }
+
+// void ColorSort_test(){
+
+
+// }

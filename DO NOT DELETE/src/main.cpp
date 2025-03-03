@@ -38,9 +38,10 @@ void initialize() {
 	pros::lcd::register_btn1_cb(on_center_button);
     
     chassis.calibrate(); // calibrate sensors
-    AutoClamp_Optical.set_led_pwm(100);
+    // AutoClamp_Optical.set_led_pwm(100);
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
+    IntakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::brake);
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
@@ -67,6 +68,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
+
 void competition_initialize() {}
 // get a path used for pure pursuit
 // this needs to be put outside a function
@@ -85,9 +87,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
 pros::Task Print(print_odom);
-Negative_Elim_red();
+  Positive_red_negative_blue();
+
+//   desired_ring = 3;
+// Auton_StopIntake();
 }
 
 /**
@@ -108,25 +112,58 @@ void opcontrol() {
 
 // pros::Task Print(print_odom);
 
-// // Auton_StopIntake();
+// desired_ring = 3;
+// Auton_StopIntake();
 
-//     while(true){
-//     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-//     Negative_Elim();
-//     }
-//     }
+    // while(true){
+    // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+    // Tune_LateralPID();
+    // }
+    // }
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
-    pros::Task Sort(Intake);
+    // pros::Task Sort(Intake);
    
     ClampUp = false; //CHANGED LINE
+    undesired_ring = 1; //blue
+    bool sort = false;
 
-
+    
 //Main Loop
     while (true) {
 
- //If button L1 is being pressed, spin the intake backwards at full speed
+ /*Intake controlls*/
+
+        if(get_opticalColor() == undesired_ring){
+            sort = true;
+        }
+        // if(get_opticalColor() == 2 || 1){
+        //     sort = false;
+        // }
+        if(sort == true){
+                    //Sort Blue
+            if ((Ring_Distance.get() < 30)){ //works with 30
+                // Match_Sort();  
+                IntakeMotor.move_voltage(-12000);
+                pros::delay(2000); //Delay to control length of break period (500 works)
+                sort = false;
+            }
+        }
+        //If button R1 is being pressed, spin teh intake forwards at full speed
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        IntakeMotor.move_voltage(12000);
+        }
+        else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))) {
+        IntakeMotor.move_voltage(0);
+        }
+        //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            undesired_ring = !undesired_ring;   
+        }
+
+    printf("my int: %d\n", get_opticalColor());
+
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         IntakeMotor.move_voltage(-12000);
         }
@@ -142,12 +179,12 @@ void opcontrol() {
 /*Clamp Controls*/
 
         if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            // If this is true, ClampDown will changed to false
+            // If this is true, ClampUp will changed to false
             // and vice versa. 
             ClampDown = !ClampDown; 
         }
     
-        Clamp_Piston.set_value(ClampDown);
+        Clamp_Piston.set_value(ClampDown); //sets piston state to the toggle variable (ClampUp)
      
 /*Doinker Controls*/
 

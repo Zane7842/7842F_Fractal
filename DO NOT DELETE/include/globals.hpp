@@ -2,6 +2,7 @@
 #include "function.hpp"
 #include "main.h"
 #include "globals.hpp"
+#include "pros/distance.hpp"
 #include "pros/imu.hpp"
 #include "pros/rotation.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -58,10 +59,11 @@ extern pros::Optical Ring_Optical;
 extern pros::Distance Ring_Distance;
 extern int Ring_Hue;
 extern int desired_ring;
+extern bool undesired_ring;
 
 // Clamp
 extern pros::adi::Pneumatics Clamp_Piston;
-extern pros::Optical AutoClamp_Optical;
+extern pros::Distance AutoClamp_Distance;
 extern bool ClampDown;
 extern bool ClampUp;
 
@@ -72,20 +74,11 @@ extern float target_position;
 extern lemlib::PID LadyBrown_pid;
 extern double start_offset;
 
-// // Hang
-// extern pros::adi::Pneumatics PTO_Piston;
-// extern pros::adi::Pneumatics Ratchet_Piston;
-// extern bool PTO_Engage;
-
 // Doinker
 extern pros::adi::Pneumatics RightDoinker_Piston;
 extern bool RightDoinker_Down;
 extern pros::adi::Pneumatics LeftDoinker_Piston;
 extern bool LeftDoinker_Down;
-
-// overides
-extern bool ClampOver;
-extern bool SortOver;
 
 //Addition varibles
 extern bool Blue_Alliance;

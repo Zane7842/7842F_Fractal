@@ -16,4 +16,9 @@ extern void Mogo_Rush_blue();
 extern void Negative_Elim_red();
 extern void Negative_Elim_blue();
 
+extern void SimplePositive_red();
+extern void SimplePositive_blue();
+
+extern void Positive_red_negative_blue();
+extern void Positive_blue_negative_red();
 

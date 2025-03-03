@@ -1,5 +1,6 @@
 #include "function.hpp"
 #include "lemlib/chassis/odom.hpp"
+#include "liblvgl/misc/lv_anim.h"
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "globals.hpp"
@@ -14,56 +15,39 @@ bool sort_red = false;
 bool is_red = true;
 
 void Match_Sort(){
-    // if(IntakeMotor.get_actual_velocity()>140){
-    // Initial_delay = 7;
-    // }
-    // else if(IntakeMotor.get_actual_velocity()<140){
-    // Initial_delay = 10;
-    // }
-    // Initial_delay = 980/IntakeMotor.get_actual_velocity()/(2)-7;
-    pros::delay(65); //Delay to tune break point
-    IntakeMotor.move_voltage(-12000);
-    pros::delay(100); //Delay to control length of break period
-    target_position = -19;
-    IntakeMotor.move_voltage(12000);
+
+    IntakeMotor.set_zero_position(0);
+    if (IntakeMotor.get_position() == 58){
+        IntakeMotor.move_voltage(-12000);
+    pros::delay(2000); //Delay to control length of break period
+        IntakeMotor.move_voltage(12000);
+    }
 }
+
+//496 --> 540
+bool sort = false;
 
 void Intake(){
     while (true){
         is_red = true;
-        //If button R1 is being pressed, spin teh intake forwards at full speed
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        IntakeMotor.move_voltage(12000);
+        if(get_opticalColor() == undesired_ring){
+            sort = true;
         }
-        else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))) {
-        IntakeMotor.move_voltage(0);
-        }
-        //If button "Y" is pressed: Sets intake to sort opposite color of the previous sort color
-        // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-        //     sort_red = !sort_red;   
+        // if(get_opticalColor() == 2 || 1){
+        //     sort = false;
         // }
+        if(sort == true){
+                    //Sort Blue
+            if ((Ring_Distance.get() < 30)){ //works with 30
+                // Match_Sort();  
+                IntakeMotor.move_voltage(-12000);
+                pros::delay(2000); //Delay to control length of break period (500 works)
+                sort = false;
+            }
+        }
 
-        //     if ((Ring_Optical.get_hue()<13)){
-        //         is_red = true;
-        //     }
-        //     if ((Ring_Optical.get_hue() < 260) & (Ring_Optical.get_hue() > 215)){
-        //         is_red = false;
-        //     }
-            // if(get_opticalColor() == 3){
-            //     //Sort Blue
-            //     if ((Ring_Distance.get() < 25)){
-            //     target_position = 40;  
-            //     } 
-            //     if ((Ring_Distance.get() < 10)){
-            //     Match_Sort();  
-            //     }   
-            // }
 
-            // if (target_position > 0 & target_position < 6){
-            //     if (IntakeMotor.get)
-            // }
-
-    // printf("my int: %d\n", Initial_delay);
+    printf("my int: %d\n", get_opticalColor());
 
     pros::delay(11);
     }
@@ -89,8 +73,8 @@ void Auton_Intake(){
 }
 
 void Auton_StopIntake(){
-    while (pros::competition::is_autonomous()){
-        IntakeMotor.move_voltage(12000);
+    while (pros::competition::is_autonomous()){  
+        IntakeMotor.move_voltage(10000);
         if (get_opticalColor() == desired_ring){ 
                IntakeMotor.brake();
                pros::delay(2500);
@@ -100,23 +84,23 @@ void Auton_StopIntake(){
 }
 
 // Get color without delay
-static int get_opticalColor() {
+int get_opticalColor() {
     double hue = Ring_Optical.get_hue();
-    if (Ring_Optical.get_proximity() < 100) return 1; //none //IMPORTANT: was set to 100 for autons
-    if (hue < 10 || hue > 355) return 2; //red
-    if (hue > 200 && hue < 240) return 3; //blue
-    return 1;
+    if (Ring_Optical.get_proximity() < 100) return 3; //none //IMPORTANT: was set to 100 for autons
+    if (hue < 10 || hue > 355) return 0; //red
+    if (hue > 200 && hue < 240) return 1; //blue
+    return 3;
 }
 
 void Clamp(){
   
     while (true){
         // If Mogo color is detected
-        if ( (AutoClamp_Optical.get_proximity() > 250) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )){ 
+        if ( (AutoClamp_Distance.get() < 12) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )){ 
         //(AutoClamp_Optical.get_hue() >= 70)
         ClampDown = true; 
         Clamp_Piston.set_value(ClampDown);
-        pros::delay(250);
+        pros::delay(500);
         }
     }
 }
@@ -125,10 +109,10 @@ void Auto_Clamp(){
     //will only run in auton m
     while (pros::competition::is_autonomous()){
         //  If Mogo color is detected
-       if ( (AutoClamp_Optical.get_proximity() > 250) & ((ClampUp == false) )){ 
+       if ((AutoClamp_Distance.get() < 12) & ((ClampUp == false))){ 
        ClampDown = true; 
        Clamp_Piston.set_value(ClampDown);
-        pros::delay(400);
+        pros::delay(500); //was 500
         }
    }
 
@@ -175,12 +159,12 @@ void LadyBrown(){
             }
             //Load Position
             else if (arm_state == 1){
-                target_position = 4 + start_offset;
+                target_position = 6 + start_offset;
                 arm_state = 2;
             }
              //Prime Position
             else if (arm_state == 2){
-                target_position =110 + start_offset; //110 for passive score
+                target_position =95 + start_offset; //110 for passive score
                 arm_state = 3;
             }
            //Score position
