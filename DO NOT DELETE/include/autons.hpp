@@ -22,3 +22,5 @@ extern void SimplePositive_blue();
 extern void Positive_red_negative_blue();
 extern void Positive_blue_negative_red();
 
+extern void ColorSort_test();
+

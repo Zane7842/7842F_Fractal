@@ -38,18 +38,17 @@ void initialize() {
 	pros::lcd::register_btn1_cb(on_center_button);
     
     chassis.calibrate(); // calibrate sensors
-    // AutoClamp_Optical.set_led_pwm(100);
+
+    /*Intake*/
     Ring_Optical.set_integration_time(3);
     Ring_Optical.set_led_pwm(100);
     IntakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
+    /*Wallstake*/
     WallStakeMotors.set_brake_mode_all(pros::MotorBrake::brake);
     WallStakeMotors.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-    pros::Task ladyBrown(LadyBrown);
-
+     pros::Task ladyBrown(LadyBrown);
     // start_offset = 32.9;
-
-
 }
 
 /**
@@ -88,7 +87,11 @@ void competition_initialize() {}
  */
 void autonomous() {
 pros::Task Print(print_odom);
-  Positive_red_negative_blue();
+
+// Tune_LateralPID();
+
+Positive_red_negative_blue();
+// ColorSort_test();
 
 //   desired_ring = 3;
 // Auton_StopIntake();
@@ -109,12 +112,6 @@ pros::Task Print(print_odom);
  */
 void opcontrol() {
 
-
-// pros::Task Print(print_odom);
-
-// desired_ring = 3;
-// Auton_StopIntake();
-
     // while(true){
     // if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
     // Tune_LateralPID();
@@ -123,6 +120,7 @@ void opcontrol() {
 
 /*Tasks*/
     pros::Task matchClamp(Clamp);
+    // pros::Task matchLadyBrown(LadyBrown);
     // pros::Task Sort(Intake);
    
     ClampUp = false; //CHANGED LINE
@@ -133,7 +131,7 @@ void opcontrol() {
 //Main Loop
     while (true) {
 
- /*Intake controlls*/
+/*Intake controlls*/
 
         if(get_opticalColor() == undesired_ring){
             sort = true;
@@ -143,10 +141,10 @@ void opcontrol() {
         // }
         if(sort == true){
                     //Sort Blue
-            if ((Ring_Distance.get() < 30)){ //works with 30
+            if ((Ring_Distance.get() < 40)){ //works with 30
                 // Match_Sort();  
                 IntakeMotor.move_voltage(-12000);
-                pros::delay(2000); //Delay to control length of break period (500 works)
+                pros::delay(500); //Delay to control length of break period (500 works)
                 sort = false;
             }
         }
@@ -162,13 +160,14 @@ void opcontrol() {
             undesired_ring = !undesired_ring;   
         }
 
-    printf("my int: %d\n", get_opticalColor());
+    // printf("my int: %d\n", get_opticalColor());
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         IntakeMotor.move_voltage(-12000);
         }
         
 /*Drive Controls*/
+
         // get left y and right x positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
@@ -201,5 +200,7 @@ void opcontrol() {
             LeftDoinker_Down = !LeftDoinker_Down; 
         }
         LeftDoinker_Piston.set_value(LeftDoinker_Down);
+
+        pros::delay(11);
     }
 }

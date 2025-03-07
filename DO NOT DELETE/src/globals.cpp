@@ -92,10 +92,10 @@ lemlib::Chassis chassis(drivetrain, linear_controller, angular_controller, senso
 
 // Intake
 pros::Motor IntakeMotor (21);
-pros::Optical Ring_Optical (12);
+pros::Optical Ring_Optical (17);
 pros::Distance Ring_Distance (13);
 bool Color_Switch = false;
-int desired_ring = 2;
+int desired_ring = 0;
 bool undesired_ring = 1;
 
 // Wall Stake 

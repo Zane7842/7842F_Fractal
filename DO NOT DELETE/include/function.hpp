@@ -2,22 +2,17 @@
 #include "main.h"
 #include "globals.hpp"
 
-void Match_Sort();
 
-void Auton_Sort();
+extern void Sort ();
 
-void Intake ();
-
-void Auton_Intake();
-
-void Auton_StopIntake();
+extern void Auton_StopIntake();
 
 extern int get_opticalColor();
 
-void Auto_Clamp ();
+extern void Clamp ();
+extern void Auto_Clamp ();
 
-void Clamp ();
+extern void LadyBrown();
+extern void Auton_LadyBrown();
 
-void LadyBrown();
-
-void print_odom();
+extern void print_odom();

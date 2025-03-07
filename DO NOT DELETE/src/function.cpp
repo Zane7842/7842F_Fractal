@@ -14,21 +14,11 @@ using namespace Globals;
 bool sort_red = false;
 bool is_red = true;
 
-void Match_Sort(){
-
-    IntakeMotor.set_zero_position(0);
-    if (IntakeMotor.get_position() == 58){
-        IntakeMotor.move_voltage(-12000);
-    pros::delay(2000); //Delay to control length of break period
-        IntakeMotor.move_voltage(12000);
-    }
-}
-
 //496 --> 540
 bool sort = false;
 
-void Intake(){
-    while (true){
+void Sort(){
+    while (pros::competition::is_autonomous()){
         is_red = true;
         if(get_opticalColor() == undesired_ring){
             sort = true;
@@ -38,10 +28,12 @@ void Intake(){
         // }
         if(sort == true){
                     //Sort Blue
-            if ((Ring_Distance.get() < 30)){ //works with 30
+            if ((Ring_Distance.get() < 40)){ //works with 30
                 // Match_Sort();  
                 IntakeMotor.move_voltage(-12000);
-                pros::delay(2000); //Delay to control length of break period (500 works)
+                pros::delay(500); //Delay to control length of break period (500 works)
+                IntakeMotor.move_voltage(12000);
+                // IntakeMotor.move_voltage(12000);
                 sort = false;
             }
         }
@@ -51,25 +43,6 @@ void Intake(){
 
     pros::delay(11);
     }
-}
-
-void Auton_Intake(){
-    is_red = true;
-    while (pros::competition::is_autonomous()){
-        if(true){
-            //Sort Blue
-            if ((Ring_Distance.get() < 25)){
-            target_position = 40;  
-            } 
-            if ((Ring_Distance.get() < 10)){
-            Match_Sort();  
-            }   
-        }
-    }
-
-    // printf("my int: %d\n", Initial_delay);
-
-    pros::delay(11);
 }
 
 void Auton_StopIntake(){
@@ -93,7 +66,6 @@ int get_opticalColor() {
 }
 
 void Clamp(){
-  
     while (true){
         // If Mogo color is detected
         if ( (AutoClamp_Distance.get() < 12) & ((controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == false) )){ 
@@ -121,6 +93,8 @@ void Auto_Clamp(){
 bool use_macro = true;
 float output;
 int arm_state = 1;
+
+
 
 void LadyBrown(){
     while (true) {
@@ -177,6 +151,18 @@ void LadyBrown(){
         // printf("my float: %f\n", output);
         pros::delay(10);
     }
+}
+
+void Auton_LadyBrown(){
+
+    while (pros::competition::is_autonomous()){
+        output = LadyBrown_pid.update(target_position*3 - WallStakeMotors.get_position_all()[0]);
+        // WallStakeMotors.move_absolute(target_position * 5, 127);
+        WallStakeMotors.move(output);
+
+    pros::delay(10);
+    }
+
 }
 
 void print_odom(){
