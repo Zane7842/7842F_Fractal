@@ -124,32 +124,33 @@ void opcontrol() {
     // pros::Task Sort(Intake);
    
     ClampUp = false; //CHANGED LINE
-    undesired_ring = 1; //blue
     bool sort = false;
+    bool disable_sort = false;
 
     
 //Main Loop
     while (true) {
 
 /*Intake controlls*/
-
-        if(get_opticalColor() == undesired_ring){
-            sort = true;
-        }
-        // if(get_opticalColor() == 2 || 1){
-        //     sort = false;
-        // }
-        if(sort == true){
-                    //Sort Blue
-            if ((Ring_Distance.get() < 40)){ //works with 30
-                // Match_Sort();  
-                IntakeMotor.move_voltage(-12000);
-                pros::delay(500); //Delay to control length of break period (500 works)
-                sort = false;
+        if(disable_sort == false){ //extra condition for colro sort disable
+            if(get_opticalColor() == undesired_ring){
+                sort = true;
+            }
+            // if(get_opticalColor() == 2 || 1){
+            //     sort = false;
+            // }
+            if(sort == true){
+                        //Sort Blue
+                if ((Ring_Distance.get() < 40)){ //works with 30
+                    // Match_Sort();  
+                    IntakeMotor.move_voltage(-12000);
+                    pros::delay(500); //Delay to control length of break period (500 works)
+                    sort = false;
+                }
             }
         }
         //If button R1 is being pressed, spin teh intake forwards at full speed
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //was else if, might not work if its just if
         IntakeMotor.move_voltage(12000);
         }
         else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))) {
@@ -160,11 +161,19 @@ void opcontrol() {
             undesired_ring = !undesired_ring;   
         }
 
+        //Disable color sort control
+        if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            disable_sort = !disable_sort;   
+        }
+
     // printf("my int: %d\n", get_opticalColor());
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         IntakeMotor.move_voltage(-12000);
         }
+        
+
+
         
 /*Drive Controls*/
 

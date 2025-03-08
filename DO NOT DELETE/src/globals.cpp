@@ -95,8 +95,8 @@ pros::Motor IntakeMotor (21);
 pros::Optical Ring_Optical (17);
 pros::Distance Ring_Distance (13);
 bool Color_Switch = false;
-int desired_ring = 0;
-bool undesired_ring = 1;
+int desired_ring = 0; //0 for red alliance
+bool undesired_ring = 1; //1 for red allaimce
 
 // Wall Stake 
 pros::MotorGroup WallStakeMotors ({-2, 9}, pros::v5::MotorGears::green);
