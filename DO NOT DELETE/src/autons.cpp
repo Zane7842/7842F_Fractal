@@ -383,19 +383,18 @@ void Positive_red_negative_blue(){
          Clamp_Piston.set_value(false);
 
     chassis.setPose(14.5, -18.23, -35);
-    pros::delay(2000);
     //score alliance stake
-    target_position = 165;
+    target_position = 165; //was 165
     pros::delay(500);
-
-        chassis.moveToPose(33.5, -29, 0, 2000,{.forwards = false}); // subject to change
+    chassis.moveToPoint(16.5, -21.23, 400, {.forwards = false}); //-19.73 //was 50
+        chassis.moveToPose(33.5, -29, 0, 2000,{.forwards = false}); // subject to change //was -29
         chassis.waitUntil(24);
     target_position = -23.25;
-        chassis.moveToPose(34, -20, 0, 1100); // subject to change
+        chassis.moveToPose(34, -21, 0, 1000); // subject to change //was -20
         chassis.waitUntil(7);
     // LeftDoinker_Down = true; 
     LeftDoinker_Piston.set_value(true);
-        chassis.moveToPose(34, -29, 0, 1000,{.forwards = false}); // subject to change
+        chassis.moveToPose(34, -29, 0, 800,{.forwards = false}); // subject to change
         chassis.waitUntil(5);
     // LeftDoinker_Down = false; 
     LeftDoinker_Piston.set_value(false);
@@ -412,14 +411,15 @@ void Positive_red_negative_blue(){
         chassis.turnToPoint(52.52, -54.66, 600,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
         chassis.moveToPose(52.52, -54.66, 180, 2000,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
         chassis.moveToPose(52.52, -31, 180, 2000,{.forwards = false, .maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
-        chassis.turnToPoint(29, -54.66, 700,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
+        chassis.turnToPoint(29, -54.66, 400,{.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 1});
         //go to corner
-        chassis.moveToPose(14.48, -70.5, -138, 2000);
+        chassis.moveToPose(14.48, -70.5, -138, 2000,{.maxSpeed = 70}); //used to not have a max speed
         chassis.moveToPose(24, -60.1, -138, 1000,{.forwards = false});
         chassis.moveToPose(15.86, -69.19, -138, 1000); //was 17.86, -67.19
-        chassis.moveToPose(52.51, -26.99, 38, 2000, {.minSpeed = 100}); //touch bar
-        chassis.waitUntil(24);
+        chassis.moveToPose(60.51, -18.99, 40, 2500, {.minSpeed = 100}); //touch bar //was 52.51, -26.99
+        chassis.waitUntil(7);
     target_position = 130;
+    
 }
 
 void Positive_blue_negative_red(){

@@ -138,12 +138,12 @@ void LadyBrown(){
             }
              //Prime Position
             else if (arm_state == 2){
-                target_position =95 + start_offset; //110 for passive score
+                target_position =30 + start_offset; //110 for passive score
                 arm_state = 3;
             }
            //Score position
             else if (arm_state == 3){
-                target_position = 145 + start_offset;
+                target_position = 152 + start_offset;
                 arm_state = 0;
             }
         }
